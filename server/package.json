@@ -5,6 +5,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node app",
+    "build": "tsc",
     "debug-dist": "node dist/app.js --listen"
   },
   "dependencies": {
