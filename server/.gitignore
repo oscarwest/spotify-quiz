@@ -1,4 +1,4 @@
 .authinfo
 node_modules
-authSettings.js
+authSettings.ts
 dist
