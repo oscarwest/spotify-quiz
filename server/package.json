@@ -4,9 +4,10 @@
   "description": "Basic examples of the Spotify authorization flows through OAuth 2",
   "version": "0.0.1",
   "scripts": {
-    "start": "node app",
-    "build": "tsc",
-    "debug-dist": "node dist/app.js --listen"
+    "start": "node dist/app",
+    "build": "tsc && npm run copy-static-to-dist",
+    "debug-dist": "npmnode dist/app.js --listen",
+    "copy-static-to-dist": "cp -R ./src/public ./dist"
   },
   "dependencies": {
     "cookie-parser": "1.3.2",
