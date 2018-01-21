@@ -1,3 +1,4 @@
 .authinfo
 node_modules
 authSettings.js
+dist
