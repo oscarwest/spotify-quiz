@@ -9,15 +9,6 @@
             "request": "attach",
             "name": "Attach by Process ID",
             "processId": "${command:PickProcess}"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch Program",
-            "program": "${workspaceFolder}/server/src/app.ts",
-            "outFiles": [
-                "${workspaceFolder}/**/*.js"
-            ]
         }
     ]
 }

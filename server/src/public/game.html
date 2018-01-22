@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Game test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+  <h1>Test</h1>
+
+  <form id="form" action="">
+    <input type="submit" value="Submit">
+  </form>
+
+  <ul id="list"></ul>
+
+  <script>
+    /**
+    * send guid (game id) to backend
+    * which creates a room and broadcasts an event with json
+    **/
+    $(function() {
+      var room = uuidv4();
+      var socket = io.connect();
+
+      socket.on('connect', function() {
+        socket.emit('create', room)
+      });
+
+      socket.on('gameDataEvent', function(data) {
+        console.log("gameDataEvent Received");
+        console.log(data);
+      });
+    });
+
+    function uuidv4() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
+  </script>
+</body>
+</html>

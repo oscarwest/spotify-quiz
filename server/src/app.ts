@@ -1,145 +1,36 @@
 import * as express from 'express';
-import * as request from 'request';
 import * as querystring from 'querystring';
 import * as cookieParser from 'cookie-parser';
 import * as authSettings from './authSettings';
 
-const CLIENT_ID = authSettings.AuthSettings.CLIENT_ID;
-const CLIENT_SECRET = authSettings.AuthSettings.CLIENT_SECRET;
-const REDIRECT_URI = authSettings.AuthSettings.REDIRECT_URI;
+import * as http from 'http';
+import * as socketio from 'socket.io';
 
-/**
- * Generates a random string containing numbers and letters
- * @param  {number} length The length of the string
- * @return {string} The generated string
- */
-const generateRandomString = function (length: number) {
-  let text = '';
-  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-  for (let i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-};
-
-const stateKey = 'spotify_auth_state';
+// Import controllers
+import * as homeController from './controllers/spotifyAuthController';
+import * as gameController from './controllers/gameController';
 
 const app = express();
 
-app.use(express.static(__dirname + '/public'))
+// Express variables
+const port = 8888;
+app.set('port', port);
+
+// Express config
+app
+  .use(express.static(__dirname + '/public'))
   .use(cookieParser());
 
-app.get('/login', (req, res) => {
-  const state = generateRandomString(16);
-  res.cookie(stateKey, state);
 
-  // your application requests authorization
-  const scope = 'user-read-private user-read-email';
-  res.redirect('https://accounts.spotify.com/authorize?' +
-    querystring.stringify({
-      scope,
-      state,
-      response_type: 'code',
-      client_id: CLIENT_ID,
-      redirect_uri: REDIRECT_URI,
-    }));
-});
+// Routes
+app.get('/auth/login', homeController.getLogin);
+app.get('/auth/callback', homeController.authCallback);
+app.get('/auth/refreshToken', homeController.refreshToken);
+app.get('/auth/logout', homeController.logout);
 
-app.get('/callback', (req, res) => {
-
-  // your application requests refresh and access tokens
-  // after checking the state parameter
-  const code = req.query.code || null;
-  const state = req.query.state || null;
-  const storedState = req.cookies ? req.cookies[stateKey] : null;
-
-  if (state === null || state !== storedState) {
-    res.redirect('/#' +
-      querystring.stringify({
-        error: 'state_mismatch',
-      }));
-  } else {
-    res.clearCookie(stateKey);
-    const authOptions = {
-      url: 'https://accounts.spotify.com/api/token',
-      form: {
-        code,
-        redirect_uri: REDIRECT_URI,
-        grant_type: 'authorization_code',
-      },
-      headers: {
-        Authorization: 'Basic ' + (
-          new Buffer(CLIENT_ID + ':' + CLIENT_SECRET).toString('base64')
-        ),
-      },
-      json: true,
-    };
-
-    request.post(authOptions, (error, response, body) => {
-      if (!error && response.statusCode === 200) {
-
-        const access_token = body.access_token;
-        const refresh_token = body.refresh_token;
-
-        const options = {
-          url: 'https://api.spotify.com/v1/me',
-          headers: {
-            Authorization: 'Bearer ' + access_token},
-          json: true,
-        };
-
-        // use the access token to access the Spotify Web API
-        request.get(options, (error, response, body) => {
-          console.log(body);
-        });
-
-        // we can also pass the token to the browser to make requests from there
-        res.redirect('/#' +
-          querystring.stringify({
-            access_token,
-            refresh_token,
-          }));
-      } else {
-        res.redirect('/#' +
-          querystring.stringify({
-            error: 'invalid_token',
-          }));
-      }
-    });
-  }
-});
-
-app.get('/refresh_token', (req, res) => {
-
-  // requesting access token from refresh token
-  const refresh_token = req.query.refresh_token;
-  const authOptions = {
-    url: 'https://accounts.spotify.com/api/token',
-    headers: 
-    {
-      Authorization: 'Basic ' + (
-        new Buffer(CLIENT_ID + ':' + CLIENT_SECRET).toString('base64')
-      ),
-    },
-    form: {
-      refresh_token,
-      grant_type: 'refresh_token',
-    },
-    json: true,
-  };
-
-  request.post(authOptions, (error, response, body) => {
-    if (!error && response.statusCode === 200) {
-      const access_token = body.access_token;
-      res.send({
-        access_token,
-      });
-    }
-  });
-});
-
-console.log('Listening on 8888');
+// Websocket test frontend
+app.get('/game', gameController.getGamePage);
 
 
-app.listen(8888);
+
+module.exports = app;
