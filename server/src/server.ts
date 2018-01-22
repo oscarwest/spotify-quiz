@@ -24,15 +24,39 @@ server.listen(port, () => {
 io.on('connect', (socket: any) => {
   console.log('backend ws connection');
 
-  // Rooms
-  socket.on('create', (room: any) => {
-    console.log('creating room' + room);
-    socket.join(room);
+  /**
+   * Create game
+   */
+  socket.on('create', (gameId: any) => {
+    // Save the gameId somewhere?
+    console.log('creating gameId' + gameId);
+    socket.join(gameId);
 
     // Call to GameDataService..
     // const gameData: Game = new Game;
 
-    io.sockets.in(room).emit('gameDataEvent', '{"somedaata":"yah"}');
+    io.to(gameId).emit('gameDataEvent', '{"created game":"yah"}');
+  });
+
+  /**
+   * Join Game
+   */
+  socket.on('join', (gameId: string) => {
+    socket.join(gameId);
+
+    io.to(gameId).emit('gameDataEvent', '{"joined":"the game!"}');
+  });
+
+  /**
+   * Game Answers?
+   */
+  socket.on('answer', (room: any) => {
+    // Save stuff with redis here
+    // or memcached/
+    // if we already need it for distributed app
+
+    // ACK answer received?
+    // io.sockets.in(room).emit('gameDataEvent', '{"somedaata":"yah"}');
   });
 
   socket.on('disconnect', () => {

@@ -12,9 +12,12 @@
 
   <h1>Test</h1>
 
-  <form id="form" action="">
+  <form id="joinGameForm" action="">
+    <input type="text" id="gameId">
     <input type="submit" value="Submit">
   </form>
+
+  <button id="createGameButton">Create New Game</button>
 
   <ul id="list"></ul>
 
@@ -24,19 +27,35 @@
     * which creates a room and broadcasts an event with json
     **/
     $(function() {
-      var room = uuidv4();
       var socket = io.connect();
-
       socket.on('connect', function() {
-        socket.emit('create', room)
+        console.log('connected to backend');
       });
 
       socket.on('gameDataEvent', function(data) {
         console.log("gameDataEvent Received");
         console.log(data);
       });
+
+      $('#joinGameForm').submit((e) => {
+        e.preventDefault();
+        console.log("joining game..");
+        var gameId = $('#gameId').val();
+
+        socket.emit('join', gameId);
+      });
+
+      $('#createGameButton').click((e) => {
+        e.preventDefault();
+        var gameId = uuidv4();
+        console.log("creating game with id: " + gameId);
+
+        socket.emit('create', gameId)
+      });
     });
 
+
+    // GUID Generator help function
     function uuidv4() {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
