@@ -1,19 +1,16 @@
 import { Component } from "react";
 
-class ReactSwipeEventComponent extends Component {
+class SwipeEventComponent extends Component {
 
   handleSwipeLeft() { }
   handleSwipeRight() { }
   handleSwipeUp() { }
   handleSwipeDown() { }
 
-  setTolerance(tolerance) {
-    this.tolerance = tolerance;
-  }
   constructor(props) {
     super(props);
 
-    this.setTolerance(10);
+    this.setTolerance(30);
     this.fnBinding(this, "getPosition", "handleTouchStart", "handleTouchMove", "handleTouchEnd", "handleSwipeLeft", "handleSwipeRight");
     this.setPropertiesForTouchEvents();
   }
@@ -30,42 +27,46 @@ class ReactSwipeEventComponent extends Component {
     fns.forEach((fn) => context[fn] = context[fn].bind(context));
   }
 
+  setTolerance(tolerance) {
+    this.tolerance = tolerance;
+  }
+
   getTolerance() {
     return this.tolerance;
   }
 
   getPosition(event) {
     if ('touches' in event) {
-      var event$touches$ = event.touches[0],
-        pageX = event$touches$.pageX,
-        pageY = event$touches$.pageY;
+      let event$touches$ = event.touches[0];
+      let pageX = event$touches$.pageX;
+      let pageY = event$touches$.pageY;
 
       return { x: pageX, y: pageY };
     }
 
-    var screenX = event.screenX,
-      screenY = event.screenY;
+    let screenX = event.screenX;
+    let screenY = event.screenY;
 
     return { x: screenX, y: screenY };
   }
 
   handleTouchStart(event) {
-    var getPosition = this.getPosition(event),
-      x = getPosition.x,
-      y = getPosition.y;
+    let getPosition = this.getPosition(event);
+    let x = getPosition.x;
+    let y = getPosition.y;
 
     this.moveStart = { x: x, y: y };
 
   }
 
   handleTouchMove(event) {
-    var getPosition2 = this.getPosition(event),
-      x = getPosition2.x,
-      y = getPosition2.y;
+    let getPosition2 = this.getPosition(event);
+    let x = getPosition2.x;
+    let y = getPosition2.y;
 
     if (this.moveStart) {
-      var deltaX = x - this.moveStart.x;
-      var deltaY = y - this.moveStart.y;
+      let deltaX = x - this.moveStart.x;
+      let deltaY = y - this.moveStart.y;
       this.moving = true;
       this.movePosition = { deltaX: deltaX, deltaY: deltaY };
     }
@@ -73,18 +74,15 @@ class ReactSwipeEventComponent extends Component {
   }
 
   handleTouchEnd(event) {
-    var tolerance = this.getTolerance();
+    let tolerance = this.getTolerance();
 
     if (this.moving) {
-      if (this.movePosition.deltaX < -tolerance) {
-        this.handleSwipeLeft(1, event);
-      } else if (this.movePosition.deltaX > tolerance) {
-        this.handleSwipeRight(1, event);
-      }
-      if (this.movePosition.deltaY < -tolerance) {
-        this.handleSwipeUp(1, event);
-      } else if (this.movePosition.deltaY > tolerance) {
-        this.handleSwipeDown(1, event);
+      if (Math.abs(this.movePosition.deltaX) > Math.abs(this.movePosition.deltaY)) {
+        this.movePosition.deltaX < -tolerance ?
+          this.handleSwipeLeft(1, event) : this.handleSwipeRight(1, event);
+      } else {
+        this.movePosition.deltaY < -tolerance ?
+          this.handleSwipeUp(1, event) : this.handleSwipeDown(1, event);
       }
     }
 
@@ -94,4 +92,4 @@ class ReactSwipeEventComponent extends Component {
   }
 }
 
-export default ReactSwipeEventComponent;
+export default SwipeEventComponent;
