@@ -1,0 +1,10 @@
+{
+    "extends": "react-app",
+    "rules": {
+        "quotes": ["error", "single"],
+        "no-var": 2,
+        "prefer-const": 2,
+        "jsx-quotes": ["error", "prefer-double"],
+        "lines-around-comment": 2
+    }
+}

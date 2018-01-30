@@ -1,17 +1,11 @@
-import { Component } from "react";
+import { Component } from 'react';
 
 class SwipeEventComponent extends Component {
-
-  handleSwipeLeft() { }
-  handleSwipeRight() { }
-  handleSwipeUp() { }
-  handleSwipeDown() { }
-
   constructor(props) {
     super(props);
 
     this.setTolerance(30);
-    this.fnBinding(this, "getPosition", "handleTouchStart", "handleTouchMove", "handleTouchEnd", "handleSwipeLeft", "handleSwipeRight");
+    this.fnBinding(this, 'getPosition', 'handleTouchStart', 'handleTouchMove', 'handleTouchEnd', 'handleSwipeLeft', 'handleSwipeRight');
     this.setPropertiesForTouchEvents();
   }
 
@@ -24,7 +18,7 @@ class SwipeEventComponent extends Component {
   }
 
   fnBinding(context, ...fns) {
-    fns.forEach((fn) => context[fn] = context[fn].bind(context));
+    fns.forEach(fn => context[fn] = context[fn].bind(context));
   }
 
   setTolerance(tolerance) {
@@ -35,46 +29,50 @@ class SwipeEventComponent extends Component {
     return this.tolerance;
   }
 
+  handleSwipeLeft() { }
+  handleSwipeRight() { }
+  handleSwipeUp() { }
+  handleSwipeDown() { }
+
   getPosition(event) {
     if ('touches' in event) {
-      let event$touches$ = event.touches[0];
-      let pageX = event$touches$.pageX;
-      let pageY = event$touches$.pageY;
+      const event$touches$ = event.touches[0];
+      const pageX = event$touches$.pageX;
+      const pageY = event$touches$.pageY;
 
       return { x: pageX, y: pageY };
     }
 
-    let screenX = event.screenX;
-    let screenY = event.screenY;
+    const screenX = event.screenX;
+    const screenY = event.screenY;
 
     return { x: screenX, y: screenY };
   }
 
   handleTouchStart(event) {
-    let getPosition = this.getPosition(event);
-    let x = getPosition.x;
-    let y = getPosition.y;
+    const getPosition = this.getPosition(event);
+    const x = getPosition.x;
+    const y = getPosition.y;
 
-    this.moveStart = { x: x, y: y };
-
+    this.moveStart = { x, y };
   }
 
   handleTouchMove(event) {
-    let getPosition2 = this.getPosition(event);
-    let x = getPosition2.x;
-    let y = getPosition2.y;
+    const getPosition2 = this.getPosition(event);
+    const x = getPosition2.x;
+    const y = getPosition2.y;
 
     if (this.moveStart) {
-      let deltaX = x - this.moveStart.x;
-      let deltaY = y - this.moveStart.y;
+      const deltaX = x - this.moveStart.x;
+      const deltaY = y - this.moveStart.y;
       this.moving = true;
-      this.movePosition = { deltaX: deltaX, deltaY: deltaY };
+      this.movePosition = { deltaX, deltaY };
     }
     event.preventDefault();
   }
 
   handleTouchEnd(event) {
-    let tolerance = this.getTolerance();
+    const tolerance = this.getTolerance();
 
     if (this.moving) {
       if (Math.abs(this.movePosition.deltaX) > Math.abs(this.movePosition.deltaY)) {
