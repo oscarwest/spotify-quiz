@@ -1,36 +1,25 @@
 'use strict';
 
-import { Request, Response, NextFunction } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import * as request from 'request';
 import * as querystring from 'querystring';
 import * as authSettings from '../authSettings';
+import * as stringHelpers from '../helpers/stringHelpers';
+
+const router = Router();
 
 const CLIENT_ID = authSettings.AuthSettings.CLIENT_ID;
 const CLIENT_SECRET = authSettings.AuthSettings.CLIENT_SECRET;
 const REDIRECT_URI = authSettings.AuthSettings.REDIRECT_URI;
 const stateKey = 'spotify_auth_state';
 
-/**
- * Generates a random string containing numbers and letters
- * @param  {number} length The length of the string
- * @return {string} The generated string
- */
-const generateRandomString = function (length: number) {
-  let text = '';
-  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-  for (let i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-};
 
 /**
  * GET /login
  * Login page.
  */
-export let getLogin = (req: Request, res: Response) => {
-  const state = generateRandomString(16);
+router.get('/login', (req: Request, res: Response, next: NextFunction) =>  {
+  const state = stringHelpers.generateRandomString(16);
   res.cookie(stateKey, state);
 
   // your application requests authorization
@@ -43,9 +32,9 @@ export let getLogin = (req: Request, res: Response) => {
       client_id: CLIENT_ID,
       redirect_uri: REDIRECT_URI,
     }));
-};
+});
 
-export let authCallback = (req: Request, res: Response) => {
+router.get('/callback', (req: Request, res: Response, next: NextFunction) =>  {
   // your application requests refresh and access tokens
   // after checking the state parameter
   const code = req.query.code || null;
@@ -106,11 +95,10 @@ export let authCallback = (req: Request, res: Response) => {
       }
     });
   }
-};
+});
 
-export let refreshToken = (req: Request, res: Response) => {
-
-  // requesting access token from refresh token
+router.get('/refreshToken', (req: Request, res: Response, next: NextFunction) =>  {
+    // requesting access token from refresh token
   const refresh_token = req.query.refresh_token;
   const authOptions = {
     url: 'https://accounts.spotify.com/api/token',
@@ -135,8 +123,10 @@ export let refreshToken = (req: Request, res: Response) => {
       });
     }
   });
-};
+});
 
-export let logout = (req: Request, res: Response) => {
+router.get('/logout', (req: Request, res: Response, next: NextFunction) =>  {
   res.redirect(200, '/');
-};
+});
+
+export = router;
