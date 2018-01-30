@@ -2,10 +2,10 @@ import { Component } from "react";
 
 class ReactSwipeEventComponent extends Component {
 
-  handleSwipeLeft() {}
-  handleSwipeRight() {}
-  handleSwipeUp() {}
-  handleSwipeDown() {}
+  handleSwipeLeft() { }
+  handleSwipeRight() { }
+  handleSwipeUp() { }
+  handleSwipeDown() { }
 
   setTolerance(tolerance) {
     this.tolerance = tolerance;
@@ -35,7 +35,7 @@ class ReactSwipeEventComponent extends Component {
   }
 
   getPosition(event) {
-    if('touches' in event) {
+    if ('touches' in event) {
       var event$touches$ = event.touches[0],
         pageX = event$touches$.pageX,
         pageY = event$touches$.pageY;
@@ -63,26 +63,27 @@ class ReactSwipeEventComponent extends Component {
       x = getPosition2.x,
       y = getPosition2.y;
 
-    var deltaX = x - this.moveStart.x;
-    var deltaY = y - this.moveStart.y;
-    this.moving = true;
-    this.movePosition = { deltaX: deltaX, deltaY: deltaY };
-
+    if (this.moveStart) {
+      var deltaX = x - this.moveStart.x;
+      var deltaY = y - this.moveStart.y;
+      this.moving = true;
+      this.movePosition = { deltaX: deltaX, deltaY: deltaY };
+    }
     event.preventDefault();
   }
 
   handleTouchEnd(event) {
     var tolerance = this.getTolerance();
 
-    if(this.moving) {
-      if(this.movePosition.deltaX < -tolerance) {
+    if (this.moving) {
+      if (this.movePosition.deltaX < -tolerance) {
         this.handleSwipeLeft(1, event);
-      } else if(this.movePosition.deltaX > tolerance) {
+      } else if (this.movePosition.deltaX > tolerance) {
         this.handleSwipeRight(1, event);
       }
-      if(this.movePosition.deltaY < -tolerance) {
+      if (this.movePosition.deltaY < -tolerance) {
         this.handleSwipeUp(1, event);
-      } else if(this.movePosition.deltaY > tolerance) {
+      } else if (this.movePosition.deltaY > tolerance) {
         this.handleSwipeDown(1, event);
       }
     }
