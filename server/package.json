@@ -4,6 +4,7 @@
   "description": "Basic examples of the Spotify authorization flows through OAuth 2",
   "version": "0.0.1",
   "scripts": {
+    "start": "node dist/app.js",
     "build": "npm run build-ts && npm run tslint && npm run copy-static-assets",
     "debug": "npm run build && npm run watch-debug",
     "build-ts": "tsc",
