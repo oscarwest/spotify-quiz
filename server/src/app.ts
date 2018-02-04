@@ -6,10 +6,31 @@ import * as querystring from 'querystring';
 import * as cookieParser from 'cookie-parser';
 import * as authSettings from './authSettings';
 import * as ioServer from './sockets';
+import * as cors from 'cors';
 
 const app = express();
 const server = http.createServer(app);
 // const io = socketIo(server);
+
+// Cors
+// pre-flight
+// app.options('*', cors());
+const allowedOrigins = ['http://localhost:8888'];
+app.use(cors({
+  origin: (origin, callback) => {
+    // allow requests with no origin
+    // (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not ' +
+                'allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+}));
+
+
 
 // Express variables
 const port = 8888;

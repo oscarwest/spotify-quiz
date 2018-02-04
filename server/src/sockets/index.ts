@@ -7,6 +7,7 @@ import { Server } from 'http';
  *
  */
 const ioEvents = (io: SocketIO.Server) => {
+  io.origins('*:*'); // for latest version
   io.on('connect', (socket: any) => {
     console.log('backend ws connection');
 
