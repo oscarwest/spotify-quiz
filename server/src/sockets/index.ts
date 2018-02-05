@@ -1,6 +1,14 @@
-import { Server } from 'http';
-
 'use strict';
+
+import { Server } from 'http';
+import { Quiz } from '../models/quiz';
+import { Game } from '../models/game';
+import { Question } from '../models/question';
+import { Song } from '../models/song';
+import { SpotifyService } from '../services/spotifyService';
+
+const redis = require('redis');
+const client = redis.createClient();
 
 /**
  * Encapsulates all code for emitting and listening to socket events
@@ -8,12 +16,29 @@ import { Server } from 'http';
  */
 const ioEvents = (io: SocketIO.Server) => {
   io.origins('*:*'); // for latest version
+
   io.on('connect', (socket: any) => {
     console.log('backend ws connection');
 
-    socket.on('create', (gameId: any) => {
+    socket.on('create', (gameId: string, userId: string) => {
       // Save the gameId somewhere?
       console.log('creating gameId' + gameId);
+
+      // Create game
+      const quiz = new Quiz({
+        id: gameId,
+        hostUserId: userId,
+        description: '',
+        name: 'test quiz',
+        playlistId: '37i9dQZF1DWZh2e6r48GWn',// spotify:user:spotify:playlist:37i9dQZF1DWZh2e6r48GWn
+      });
+
+
+      const songs = new SpotifyService().getSongs(userId, quiz.playlistId);
+
+
+
+
       socket.join(gameId);
 
       io.to(gameId).emit('gameDataEvent', '{"created game":"yah"}');

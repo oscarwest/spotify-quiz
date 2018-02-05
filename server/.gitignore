@@ -2,3 +2,4 @@
 node_modules
 authSettings.ts
 dist
+config

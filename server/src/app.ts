@@ -4,13 +4,18 @@ import * as socketIo from 'socket.io';
 import * as express from 'express';
 import * as querystring from 'querystring';
 import * as cookieParser from 'cookie-parser';
-import * as authSettings from './authSettings';
+import * as config from 'config';
 import * as ioServer from './sockets';
 import * as cors from 'cors';
+import * as bodyParser from 'body-parser';
+
+// Setup Promises
+// require('any-promise/register/q');
+// const rp = require('request-promise-any');
+
 
 const app = express();
 const server = http.createServer(app);
-// const io = socketIo(server);
 
 // Cors
 // pre-flight
@@ -30,7 +35,8 @@ app.use(cors({
   },
 }));
 
-
+// Set config dir for dist
+process.env.NODE_CONFIG_DIR = './dist/config';
 
 // Express variables
 const port = 8888;
@@ -38,8 +44,9 @@ app.set('port', port);
 
 // Express config
 app
-.use(express.static(__dirname + '/public'))
-.use(cookieParser());
+  .use(express.static(__dirname + '/public'))
+  .use(cookieParser())
+  .use(bodyParser.json());
 
 
 // stdout errors in dev mode
@@ -51,8 +58,10 @@ if (process.env.NODE_ENV === 'development') {
 // Routes
 const authRoutes = require('./routes/spotifyAuthRoutes');
 const gameRoutes = require('./routes/gameRoutes');
+const testRoutes = require('./routes/testRoutes');
 app.use('/auth', authRoutes);
 app.use('/game', gameRoutes);
+app.use('/test', testRoutes);
 
 
 // Start the server

@@ -1,23 +1,16 @@
 'use strict';
-
 import { Router, Request, Response, NextFunction } from 'express';
-import * as request from 'request';
+import * as request from 'request-promise';
 import * as querystring from 'querystring';
-import * as authSettings from '../authSettings';
+import * as config from 'config';
 import * as stringHelpers from '../helpers/stringHelpers';
 
 const router = Router();
-
-const CLIENT_ID = authSettings.AuthSettings.CLIENT_ID;
-const CLIENT_SECRET = authSettings.AuthSettings.CLIENT_SECRET;
-const REDIRECT_URI = authSettings.AuthSettings.REDIRECT_URI;
+const CLIENT_ID = config.get('spotify.client_id');
+const CLIENT_SECRET = config.get('spotify.client_secret');
+const REDIRECT_URI = config.get('spotify.redirect_uri');
 const stateKey = 'spotify_auth_state';
 
-
-/**
- * GET /login
- * Login page.
- */
 router.get('/login', (req: Request, res: Response, next: NextFunction) =>  {
   const state = stringHelpers.generateRandomString(16);
   res.cookie(stateKey, state);
