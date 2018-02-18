@@ -1,6 +1,6 @@
 import { Component } from 'react';
 
-const stateKey = 'spotify_auth_state';
+//const stateKey = 'spotify_auth_state';
 class CallbackPage extends Component {
     getHashParams() {
         let e;
