@@ -1,16 +1,27 @@
 import React, { Component } from 'react';
+import PlaylistsComponent from '../../components/PlaylistsComponent/PlaylistsComponent';
 import * as rp from 'request-promise';
 
 class ProfilePage extends Component {
     state = { profile_name: null };
 
-    componentDidMount() {
+    async componentDidMount() {
         // const access_token = localStorage.getItem('access_token');
         // console.log("using token: " + access_token);
-        this.getProfile().then((result) => {
-            this.setState({
-                profile_name: result.display_name
-            });
+        const profile = await this.getProfile();
+        this.setState({
+            profile_name: profile.display_name,
+            user_id: profile.id
+        });
+
+        const playlists = await this.getPlaylists();
+        this.setState({
+            playlists: playlists.items.map(p => {
+                return {
+                    name: p.name,
+                    id: p.id
+                };
+            })
         });
     }
 
@@ -36,12 +47,35 @@ class ProfilePage extends Component {
         });
     }
 
+    getPlaylists() {
+        return new Promise((resolve, reject) => {
+            const opts = {
+                method: 'GET',
+                url: `https://api.spotify.com/v1/users/${this.state.user_id}/playlists`,
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+                },
+                json: true,
+            };
+
+            try {
+                rp(opts).then((res) => {
+                    resolve(res);
+                });
+            } catch (error) {
+                console.log(error);
+                reject(error);
+            }
+        });
+    }
+
     render() {
-        if (this.state.profile_name) {
+        if (this.state.profile_name && this.state.playlists) {
             return (
                 <div>
                     <h1>Profile page</h1>
                     <p>Welcome: {this.state.profile_name}</p>
+                    <PlaylistsComponent playlists={this.state.playlists} />
                 </div>
             );
         } else {
