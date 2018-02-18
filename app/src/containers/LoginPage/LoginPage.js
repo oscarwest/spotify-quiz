@@ -3,16 +3,6 @@ import React, { Component } from 'react';
 const stateKey = 'spotify_auth_state';
 
 class LoginPage extends Component {
-    render() {
-        return (
-            <div>
-                <h1>Login here</h1>
-                <button onClick={() => this.login()}>
-                    Log in with Spotify
-                </button>
-            </div>
-        );
-    }
 
     login() {
         const client_id = 'eff83e6b5dfe489092cde0ec5f788a4c'; // Your client id
@@ -42,6 +32,17 @@ class LoginPage extends Component {
         }
         return text;
     };
+
+    render() {
+        return (
+            <div>
+                <h1>Login here</h1>
+                <button onClick={() => this.login()}>
+                    Log in with Spotify
+                </button>
+            </div>
+        );
+    }
 }
 
 export default LoginPage;
