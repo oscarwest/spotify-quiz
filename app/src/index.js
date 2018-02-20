@@ -1,14 +1,24 @@
 import React from 'react';
 import { render } from 'react-dom';
 import App from './App';
+
+import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'react-router-redux';
+import store, { history } from './store';
+
 import './index.css';
-import { BrowserRouter } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
 
-render((
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>), document.getElementById('root')
+
+const target = document.querySelector('#root');
+
+render(
+    <Provider store={store}>
+        <ConnectedRouter history={history}>
+            <App />
+        </ConnectedRouter>
+    </Provider>,
+    target
 );
 
 registerServiceWorker();
