@@ -1,9 +1,11 @@
 import * as shortid from 'shortid';
 import * as uuid from 'uuid';
 import { Question } from './question';
+import { Quiz } from '../models/quiz';
 
 export class Game {
   id = '';
+  quiz : Quiz = null;
   // shortId = '';
 
   constructor(data: Game | {} = {}) {
@@ -15,5 +17,6 @@ export class Game {
     if (!this.id) {
       this.id = shortid.generate().toUpperCase();
     }
+
   }
 }

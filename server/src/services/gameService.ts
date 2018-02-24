@@ -2,6 +2,7 @@
 
 import * as rp from 'request-promise';
 import { Game } from '../models/game';
+import { Quiz } from '../models/quiz';
 
 export class GameService {
   // private clientId : string;
@@ -10,7 +11,7 @@ export class GameService {
     // this.clientId = config.get('spotify.client_id');
   }
 
-  public async createGame(userId: string, playlistId: string) : Promise<Game> {
-    return Promise.resolve(new Game());
+  public async createGame(quiz: Quiz) : Promise<Game> {
+    return Promise.resolve(new Game({ quiz }));
   }
 }
