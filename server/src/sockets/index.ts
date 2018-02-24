@@ -24,7 +24,7 @@ const ioEvents = (io: SocketIO.Server) => {
     // Create a Game
     socket.on('create', async (data: any) => {
       const gameService = new GameService();
-      const game = await gameService.createGame(data.userId, data.playlistId);
+      const game = await gameService.createGame(data.quiz);
 
       socket.join(game.id);
       io.to(game.id).emit('gameCreatedEvent', JSON.stringify(game));
@@ -50,6 +50,10 @@ const ioEvents = (io: SocketIO.Server) => {
       };
 
       io.sockets.in(room).emit('answerReceivedEvent', JSON.stringify(res));
+    });
+
+    socket.on('nextQuestion', (room: string) => {
+      io.sockets.in(room).emit('nextQuestionEvent');
     });
 
     socket.on('disconnect', () => {
