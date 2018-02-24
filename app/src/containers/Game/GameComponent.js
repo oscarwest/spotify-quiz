@@ -1,5 +1,4 @@
-import React from 'react';
-import WebSocketComponent from '../../components/WebSocketComponent';
+import React, { Component } from 'react';
 import JoinGame from '../JoinGame/JoinGame';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
@@ -7,9 +6,9 @@ import { connect } from 'react-redux';
 import {
     create_game,
     create_gameAsync
-} from '../../modules/game';
+} from '../../actions/game';
 
-class GameComponent extends WebSocketComponent {
+class GameComponent extends Component {
     render() {
         return (
             <div>
