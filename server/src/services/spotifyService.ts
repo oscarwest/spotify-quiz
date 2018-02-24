@@ -2,6 +2,7 @@
 
 import * as rp from 'request-promise';
 import * as config from 'config';
+import { Song } from '../models/song';
 
 export class SpotifyService {
   private clientId : string;
@@ -16,7 +17,7 @@ export class SpotifyService {
     this.tokenUrl = config.get('spotify.token_url');
   }
 
-  public async getSongs(userId: string, playlistId: string) : Promise<any> {
+  public async getSongs(userId: string, playlistId: string) : Promise<Song[]> {
     const token = await this.getAccessToken();
         // use the access token to access the Spotify Web API
     const fieldsParams = 'fields=items(track(id%2C%20name%2C%20artists(name)))';
@@ -33,9 +34,18 @@ export class SpotifyService {
 
     try {
       const res = await rp(opts);
-      // Map results to song model list
 
-      return Promise.resolve(res);
+      const songs = res.items.map((item: any) => {
+            	return new Song(
+              {
+                artistName: item.track.artists[0].name,
+                id: item.track.id,
+                trackName: item.track.name,
+              },
+              );
+      });
+
+      return Promise.resolve(songs);
     } catch (error) {
       console.log(error);
       return Promise.reject('Couldn\'t get songs');

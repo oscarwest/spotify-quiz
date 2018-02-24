@@ -1,3 +1,6 @@
+process.env.NODE_CONFIG_DIR = '.';
+console.log('NODE_CONFIG_DIR Set to: ' + process.env.NODE_CONFIG_DIR);
+
 import * as errorHandler from 'errorhandler';
 import * as http from 'http';
 import * as socketIo from 'socket.io';
@@ -8,11 +11,7 @@ import * as config from 'config';
 import * as ioServer from './sockets';
 import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
-
-// Setup Promises
-// require('any-promise/register/q');
-// const rp = require('request-promise-any');
-
+const expressValidator = require('express-validator');
 
 const app = express();
 const server = http.createServer(app);
@@ -36,7 +35,6 @@ app.use(cors({
 }));
 
 // Set config dir for dist
-process.env.NODE_CONFIG_DIR = './dist/config';
 
 // Express variables
 const port = 8888;
@@ -46,23 +44,19 @@ app.set('port', port);
 app
   .use(express.static(__dirname + '/public'))
   .use(cookieParser())
-  .use(bodyParser.json());
-
+  .use(bodyParser.json())
+  .use(expressValidator());
 
 // stdout errors in dev mode
 if (process.env.NODE_ENV === 'development') {
   app.use(errorHandler());
 }
 
-
 // Routes
-const authRoutes = require('./routes/spotifyAuthRoutes');
 const gameRoutes = require('./routes/gameRoutes');
-const testRoutes = require('./routes/testRoutes');
-app.use('/auth', authRoutes);
+const quizRoutes = require('./routes/quizRoutes');
 app.use('/game', gameRoutes);
-app.use('/test', testRoutes);
-
+app.use('/quiz', quizRoutes);
 
 // Start the server
 server.listen(port, () => {

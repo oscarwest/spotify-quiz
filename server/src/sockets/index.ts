@@ -5,7 +5,8 @@ import { Quiz } from '../models/quiz';
 import { Game } from '../models/game';
 import { Question } from '../models/question';
 import { Song } from '../models/song';
-import { SpotifyService } from '../services/spotifyService';
+import { GameService } from '../services/gameService';
+import { QuizService } from '../services/quizService';
 
 const redis = require('redis');
 const client = redis.createClient();
@@ -20,43 +21,35 @@ const ioEvents = (io: SocketIO.Server) => {
   io.on('connect', (socket: any) => {
     console.log('backend ws connection');
 
-    socket.on('create', (gameId: string, userId: string) => {
-      // Save the gameId somewhere?
-      console.log('creating gameId' + gameId);
+    // Create a Game
+    socket.on('create', async (data: any) => {
+      const gameService = new GameService();
+      const game = await gameService.createGame(data.userId, data.playlistId);
 
-      // Create game
-      const quiz = new Quiz({
-        id: gameId,
-        hostUserId: userId,
-        description: '',
-        name: 'test quiz',
-        playlistId: '37i9dQZF1DWZh2e6r48GWn',// spotify:user:spotify:playlist:37i9dQZF1DWZh2e6r48GWn
-      });
-
-
-      const songs = new SpotifyService().getSongs(userId, quiz.playlistId);
-
-
-
-
-      socket.join(gameId);
-
-      io.to(gameId).emit('gameDataEvent', '{"created game":"yah"}');
+      socket.join(game.id);
+      io.to(game.id).emit('gameCreatedEvent', JSON.stringify(game));
     });
 
-    socket.on('join', (gameId: string) => {
+    // Join a Game
+    socket.on('join', (userName: string, gameId: string) => {
       socket.join(gameId);
 
-      io.to(gameId).emit('gameDataEvent', '{"joined":"the game!"}');
+      io.to(gameId).emit('userJoinedGameEvent', `{ "userName": "${userName}" }`);
     });
 
-    socket.on('answer', (room: any) => {
-    // Save stuff with redis here
-    // or memcached/
-    // if we already need it for distributed app
+    socket.on('answer', (data: any) => {
+      const room = data.gameId;
+      const userName = data.userName;
+      const answer = data.answer;
+      const question = data.question;
 
-    // ACK answer received?
-    // io.sockets.in(room).emit('gameDataEvent', '{"somedaata":"yah"}');
+      const res = {
+        userName,
+        answer,
+        question,
+      };
+
+      io.sockets.in(room).emit('answerReceivedEvent', JSON.stringify(res));
     });
 
     socket.on('disconnect', () => {

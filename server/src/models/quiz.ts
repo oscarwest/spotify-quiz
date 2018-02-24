@@ -1,11 +1,12 @@
 import * as uuid from 'uuid';
+import { Question } from '../models/question';
 
 export class Quiz {
   id = '';
-  hostUserId = '';
+  userId = '';
   name = '';
   description = '';
-  playlistId = '';
+  questions : Question[];
 
   constructor(data: Quiz | {} = {}) {
     Object.assign(this, data);

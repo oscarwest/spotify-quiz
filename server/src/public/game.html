@@ -50,7 +50,9 @@
         var gameId = uuidv4();
         console.log("creating game with id: " + gameId);
 
-        socket.emit('create', gameId)
+        socket.emit('create', { gameId: gameId,
+                               userId: 'spotify',
+                               playlistId: '37i9dQZF1DWZh2e6r48GWn'})
       });
     });
 

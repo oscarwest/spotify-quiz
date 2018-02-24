@@ -2,13 +2,13 @@ import * as uuid from 'uuid';
 import { Song } from './song';
 
 export class Question {
-  song : [Song, Song, Song, Song];
+  songs : [Song, Song, Song, Song];
   answer : number;
 
   constructor(data: Question | {} = {}) {
     Object.assign(this, data);
 
-    if (!this.song) {
+    if (!this.songs) {
       throw 'no songs';
     }
   }
