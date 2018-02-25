@@ -8,9 +8,19 @@ import {
 } from '../../actions/gameActions';
 
 class PlaylistsComponent extends Component {
+    constructor(props) {
+        super(props);
+        this.handleOnPlaylistClicked = this.handleOnPlaylistClicked.bind(this);
+    }
+
+    handleOnPlaylistClicked(playlistId) {
+        const userId = this.props.userId;
+        this.props.createGame(userId, playlistId);
+    }
+
     render() {
         const playlist = this.props.playlists.map((p, i) => {
-            return <PlaylistComponent key={i} name={p.name} id={p.id} onPlaylistClicked={this.props.createGame} />;
+            return <PlaylistComponent key={i} name={p.name} id={p.id} onPlaylistClicked={this.handleOnPlaylistClicked} />;
         });
 
         return (
@@ -26,7 +36,7 @@ PlaylistComponent.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    // isCreatingGame: state.game.isCreatingGame
+    userId: state.spotify.userId,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
