@@ -3,23 +3,20 @@ import PlaylistsComponent from '../../components/PlaylistsComponent/PlaylistsCom
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-    getProfile,
-    getPlaylists
+    getProfileAndPlaylists
 } from '../../actions/spotifyActions';
 
 class ProfilePage extends Component {
     componentDidMount() {
-        this.props.getProfile();
-        // TODO: Fix
-        this.props.getPlaylists('partyfille');
+        this.props.getProfileAndPlaylists();
     }
 
     render() {
-        if (this.props.profile_name && this.props.playlists) {
+        if (this.props.profileName && this.props.playlists) {
             return (
                 <div>
                     <h1>Profile page</h1>
-                    <p>Welcome: {this.props.profile_name}</p>
+                    <p>Welcome: {this.props.profileName}</p>
                     <PlaylistsComponent playlists={this.props.playlists} />
                 </div>
             );
@@ -28,14 +25,14 @@ class ProfilePage extends Component {
         }
     }
 }
+
 const mapStateToProps = state => ({
-    profile_name: state.spotify.profile_name,
+    profileName: state.spotify.profileName,
     playlists: state.spotify.playlists
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    getProfile,
-    getPlaylists
+    getProfileAndPlaylists
 }, dispatch);
 
 export default connect(

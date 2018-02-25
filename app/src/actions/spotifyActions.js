@@ -3,9 +3,7 @@ import SpotifyApi from '../api/spotifyApi';
 
 export const getProfile = () => {
     return dispatch => {
-        dispatch({
-            type: actionTypes.SPOTIFY_PROFILE_REQUESTED
-        });
+        dispatch({ type: actionTypes.SPOTIFY_PROFILE_REQUESTED });
 
         return SpotifyApi.getProfile()
             .then(profile => {
@@ -23,13 +21,11 @@ export const getProfile = () => {
     };
 };
 
-export const getPlaylists = (user_id) => {
+export const getPlaylists = (userId) => {
     return dispatch => {
-        dispatch({
-            type: actionTypes.PLAYLISTS_REQUESTED
-        });
+        dispatch({ type: actionTypes.PLAYLISTS_REQUESTED });
 
-        return SpotifyApi.getPlaylists(user_id)
+        return SpotifyApi.getPlaylists(userId)
             .then(playlists => {
                 dispatch({
                     type: actionTypes.PLAYLISTS_SUCCESS,
@@ -45,3 +41,11 @@ export const getPlaylists = (user_id) => {
     };
 };
 
+export const getProfileAndPlaylists = (userId) => {
+    return (dispatch, getState) => {
+        return dispatch(getProfile()).then(() => {
+            const userId = getState().spotify.userId;
+            
+            return dispatch(getPlaylists(userId));
+        });
+}};

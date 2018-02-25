@@ -2,9 +2,9 @@ import * as actionTypes from '../actions/actionTypes';
 
 
 const initialState = {
-    profile_name: null,
+    profileName: null,
     isFetchingPlaylists: null,
-    user_id: null,
+    userId: null,
     playlists: null
 };
 
@@ -19,8 +19,8 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 isFetchingProfile: false,
-                profile_name: action.response.display_name,
-                user_id: action.response.id
+                profileName: action.response.display_name,
+                userId: action.response.id
             };
 
         case actionTypes.SPOTIFY_PROFILE_FAILURE:

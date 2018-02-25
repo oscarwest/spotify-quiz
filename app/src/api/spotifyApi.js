@@ -22,11 +22,11 @@ class SpotifyApi {
         });
     }
 
-    static getPlaylists(user_id) {
+    static getPlaylists(userId) {
         return new Promise((resolve, reject) => {
             const opts = {
                 method: 'GET',
-                url: `https://api.spotify.com/v1/users/${user_id}/playlists`,
+                url: `https://api.spotify.com/v1/users/${userId}/playlists`,
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('access_token'),
                 },
