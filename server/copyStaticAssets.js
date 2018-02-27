@@ -6,4 +6,4 @@ shell.cp('-R', 'src/public', 'dist/public/');
 
 // Config
 shell.rm('-rf', 'dist/config');
-shell.cp('-R', 'src/config', 'dist/config/');
+shell.cp('-R', 'src/config', 'dist/config');

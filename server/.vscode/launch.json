@@ -11,6 +11,24 @@
           "processId": "${command:PickProcess}",
           "protocol": "inspector",
           "restart": true
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Launch in Docker",
+        "preLaunchTask": "tsc-watch",
+        "runtimeExecutable": "npm",
+        "runtimeArgs": [ "run", "docker-debug" ],
+        "port": 9222,
+        "restart": true,
+        "timeout": 20000,
+        "localRoot": "${workspaceRoot}",
+        "remoteRoot": "/server",
+        "outFiles": [
+          "${workspaceRoot}/dist/**/*.js"
+        ],
+        "console": "integratedTerminal",
+        "internalConsoleOptions": "neverOpen"
       }
   ]
 }

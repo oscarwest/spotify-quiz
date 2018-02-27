@@ -9,7 +9,7 @@ import { GameService } from '../services/gameService';
 import { QuizService } from '../services/quizService';
 
 const redis = require('redis');
-const client = redis.createClient();
+const client = redis.createClient(6379, 'redis');
 
 /**
  * Encapsulates all code for emitting and listening to socket events

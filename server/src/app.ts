@@ -1,5 +1,6 @@
-process.env.NODE_CONFIG_DIR = '.';
-console.log('NODE_CONFIG_DIR Set to: ' + process.env.NODE_CONFIG_DIR);
+// process.env.NODE_CONFIG_DIR = '.';
+console.log('CWD:' + process.cwd());
+console.log('NODE_CONFIG_DIR:' + process.env.NODE_CONFIG_DIR);
 
 import * as errorHandler from 'errorhandler';
 import * as http from 'http';
@@ -39,6 +40,7 @@ app.use(cors({
 // Express variables
 const port = 8888;
 app.set('port', port);
+
 
 // Express config
 app
