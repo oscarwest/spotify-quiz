@@ -7,7 +7,7 @@ services:
     volumes:
       - ./dist:/server/dist
     environment:
-      NODE_CONFIG_DIR: /server/dist/config
+      - NODE_CONFIG_DIR=/server/dist/config
     ports:
       - "8888:8888"
       - "9222:9222"
