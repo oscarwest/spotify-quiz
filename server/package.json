@@ -15,8 +15,7 @@
     "serve-debug": "cd dist && nodemon --inspect app.js",
     "watch": "tsc -w -p ./src",
     "container-debug": "nodemon --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/app.js",
-
-    "docker-debug": "docker-compose up"
+    "docker-debug": "concurrently -k -p \"[{name}]\" -n \"DockerComposeUp,TscWatch\" -c \"yellow.bold,cyan.bold,green.bold\" \"docker-compose up\" \"npm run watch\""
   },
   "dependencies": {
     "assert": "^1.4.1",
