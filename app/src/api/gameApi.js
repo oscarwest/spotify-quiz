@@ -7,13 +7,13 @@ class GameApi {
             body: JSON.stringify(body),
             headers: new Headers({
                 'Content-Type': 'application/json'
-              })
+            })
         })
-        .then(response => {
-            return response.json();
-        }).catch(error => {
-            return error;
-        });
+            .then(response => {
+                return response.json();
+            }).catch(error => {
+                throw error;
+            });
     }
 }
 

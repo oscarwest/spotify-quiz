@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import PlaylistComponent from '../PlaylistComponent/PlaylistComponent';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
+
 import {
     createGame,
 } from '../../actions/gameActions';
@@ -11,6 +13,12 @@ class PlaylistsComponent extends Component {
     constructor(props) {
         super(props);
         this.handleOnPlaylistClicked = this.handleOnPlaylistClicked.bind(this);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.game) {
+            this.props.startGame();
+        }
     }
 
     handleOnPlaylistClicked(playlistId) {
@@ -37,10 +45,12 @@ PlaylistComponent.propTypes = {
 
 const mapStateToProps = state => ({
     userId: state.spotify.userId,
+    game: state.game.game
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    createGame
+    createGame,
+    startGame: () => push('/gamehost')
 }, dispatch);
 
 export default connect(

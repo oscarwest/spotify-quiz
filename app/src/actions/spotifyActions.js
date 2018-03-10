@@ -45,7 +45,8 @@ export const getProfileAndPlaylists = (userId) => {
     return (dispatch, getState) => {
         return dispatch(getProfile()).then(() => {
             const userId = getState().spotify.userId;
-            
+
             return dispatch(getPlaylists(userId));
         });
-}};
+    };
+};
