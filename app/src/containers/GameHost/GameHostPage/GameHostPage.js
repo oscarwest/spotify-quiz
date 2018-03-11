@@ -14,16 +14,16 @@ class GameHostPage extends Component {
     }
 
     render() {
-        if(this.props.game) {
+        if (this.props.game) {
             return (
                 <div>
                     <h1>Game Host</h1>
-                    <br/>
+                    <br />
                     <h2>{this.props.game.id}</h2>
                 </div>
             );
         } else {
-            return <p>Loading...</p>
+            return <p>Loading...</p>;
         }
     }
 }
