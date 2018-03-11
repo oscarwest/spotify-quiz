@@ -23,8 +23,6 @@ class PlaylistsComponent extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (this.props.game) {
             this.props.startGame();
-        } else if (this.props.createGameError) {
-            console.log('error: ', this.props.createGameError);
         }
     }
 
@@ -38,9 +36,13 @@ class PlaylistsComponent extends Component {
             return <PlaylistComponent key={i} name={p.name} id={p.id} onPlaylistClicked={this.handleOnPlaylistClicked} />;
         });
 
+        const errorMessage = this.props.createGameError ?
+            <p><strong>Error: Något gick fel!!</strong></p> : null;
+
         return (
             <div>
                 <h1>Playlist Component</h1>
+                {errorMessage}
                 <ul>{playlist}</ul>
             </div>);
     }

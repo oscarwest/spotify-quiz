@@ -1,11 +1,11 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import SwipeArea from './containers/SwipeArea/SwipeArea';
-import LoginPage from './containers/LoginPage/LoginPage';
-import CallbackPage from './containers/CallbackPage/CallbackPage';
-import ProfilePage from './containers/ProfilePage/ProfilePage';
-import GameComponent from './containers/Game/GameComponent';
-import GameHostPage from './containers/GameHostPage/GameHostPage';
+import SwipeArea from './containers/GameClient/SwipeArea/SwipeArea';
+import LoginPage from './containers/GameHost/LoginPage/LoginPage';
+import CallbackPage from './containers/GameHost/CallbackPage/CallbackPage';
+import ProfilePage from './containers/GameHost/ProfilePage/ProfilePage';
+import GameComponent from './containers/GameClient/Game/GameComponent';
+import GameHostPage from './containers/GameHost/GameHostPage/GameHostPage';
 
 
 const App = () => (

@@ -3,8 +3,7 @@ import GameApi from '../api/gameApi';
 
 
 export const createGame = (userId, playlistId) => {
-    return dispatch => {
-        // Request API
+    return async dispatch => {
         dispatch({
             type: actionTypes.CREATE_GAME_REQUESTED
         });
@@ -16,19 +15,18 @@ export const createGame = (userId, playlistId) => {
             quizName: 'SomeQuizName',
             description: 'some description',
         };
-
-        return GameApi.createGame(payload)
-            .then(game => {
-                dispatch({
-                    type: actionTypes.CREATE_GAME_SUCCESS,
-                    response: game
-                });
-            }).catch(error => {
-                dispatch({
-                    type: actionTypes.CREATE_GAME_FAILURE,
-                    error: error
-                });
+        try {
+            const game = await GameApi.createGame(payload);
+            dispatch({
+                type: actionTypes.CREATE_GAME_SUCCESS,
+                response: game
             });
+        } catch (error) {
+            dispatch({
+                type: actionTypes.CREATE_GAME_FAILURE,
+                error: error
+            });
+        }
     };
 };
 

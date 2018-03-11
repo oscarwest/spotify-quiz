@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import PlaylistsComponent from '../../components/PlaylistsComponent/PlaylistsComponent';
+import PlaylistsComponent from '../../../components/PlaylistsComponent/PlaylistsComponent';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
     getProfileAndPlaylists
-} from '../../actions/spotifyActions';
+} from '../../../actions/spotifyActions';
 
 class ProfilePage extends Component {
     componentDidMount() {
