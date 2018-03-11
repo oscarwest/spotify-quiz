@@ -31,10 +31,10 @@ const ioEvents = (io: SocketIO.Server) => {
     });
 
     // Join a Game
-    socket.on('join', (userName: string, gameId: string) => {
+    socket.on('join', (gameId: string) => {
       socket.join(gameId);
 
-      io.to(gameId).emit('userJoinedGameEvent', `{ "userName": "${userName}" }`);
+      io.to(gameId).emit('userJoinedGameEvent', `{ "userName": "notavail" }`);
     });
 
     socket.on('answer', (data: any) => {

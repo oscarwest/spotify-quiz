@@ -2,7 +2,8 @@ const port = 8888;
 const host = 'localhost';
 
 const messageTypes = [
-    'gameCreatedEvent'
+    'gameCreatedEvent',
+    'userJoinedGameEvent'
 ].reduce((accum, msg) => {
     accum[msg] = msg;
     return accum;

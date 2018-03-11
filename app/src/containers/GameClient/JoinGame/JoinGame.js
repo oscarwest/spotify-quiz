@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { joinGame } from '../../../actions/websocketActions';
 
 class JoinGame extends Component {
     constructor(props) {
@@ -14,6 +17,7 @@ class JoinGame extends Component {
     }
 
     handleSubmit(event) {
+        this.props.joinGame(this.state.value);
         event.preventDefault();
     }
 
@@ -30,4 +34,14 @@ class JoinGame extends Component {
     }
 }
 
-export default JoinGame;
+const mapStateToProps = state => ({
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+    joinGame
+}, dispatch);
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(JoinGame);

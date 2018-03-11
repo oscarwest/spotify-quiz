@@ -12,6 +12,8 @@ export const PLAYLISTS_REQUESTED = 'PLAYLISTS_REQUESTED';
 export const PLAYLISTS_SUCCESS = 'PLAYLISTS_SUCCESS';
 export const PLAYLISTS_FAILURE = 'PLAYLISTS_FAILURE';
 
-export const WS_GAME_CREATED = 'gameCreatedEvent';
 
+export const WS_GAME_CREATED = 'gameCreatedEvent';
 export const WS_CREATE_GAME = 'create';
+export const WS_JOIN_GAME = 'join';
+export const WS_USER_JOINED_GAME = 'userJoinedGameEvent';

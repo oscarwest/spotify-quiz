@@ -9,17 +9,20 @@ class GameHostPage extends Component {
         this.props.createGame(this.props.quiz);
     }
 
-    componentDidUpdate() {
-        console.log(this.props.game);
-    }
-
     render() {
+        const listItems = this.props.users.map((item, index) =>
+            <li key={index}>
+                {item}
+            </li>
+        );
+
         if (this.props.game) {
             return (
                 <div>
                     <h1>Game Host</h1>
                     <br />
                     <h2>{this.props.game.id}</h2>
+                    <ul>{listItems}</ul>
                 </div>
             );
         } else {
@@ -30,7 +33,8 @@ class GameHostPage extends Component {
 
 const mapStateToProps = state => ({
     quiz: state.game.game,
-    game: state.websocket.game
+    game: state.websocket.game,
+    users: state.websocket.users
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
