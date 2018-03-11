@@ -24,7 +24,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 isCreatingGame: false,
-                createGameError: action.error
+                createQuizError: action.error
             };
 
         case actionTypes.RESET_GAME:
@@ -32,7 +32,7 @@ export default (state = initialState, action) => {
                 ...state,
                 isCreatingGame: false,
                 game: null,
-                createGameError: null
+                createQuizError: null
             };
 
 

@@ -22,9 +22,9 @@ const ioEvents = (io: SocketIO.Server) => {
     console.log('backend ws connection');
 
     // Create a Game
-    socket.on('create', async (data: any) => {
+    socket.on('create', async (data: Quiz) => {
       const gameService = new GameService();
-      const game = await gameService.createGame(data.quiz);
+      const game = await gameService.createGame(data);
 
       socket.join(game.id);
       io.to(game.id).emit('gameCreatedEvent', JSON.stringify(game));

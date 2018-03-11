@@ -11,7 +11,7 @@ services:
       - NODE_CONFIG_DIR=/server/dist/config
     ports:
       - "8888:8888"
-      - "9222:9222"
+      - "9223:9222"
     networks:
       - redis-net
     depends_on:

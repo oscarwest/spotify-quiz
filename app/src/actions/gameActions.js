@@ -2,7 +2,7 @@ import * as actionTypes from './actionTypes';
 import GameApi from '../api/gameApi';
 
 
-export const createGame = (userId, playlistId) => {
+export const createQuiz = (userId, playlistId) => {
     return async dispatch => {
         dispatch({
             type: actionTypes.CREATE_GAME_REQUESTED
@@ -16,7 +16,7 @@ export const createGame = (userId, playlistId) => {
             description: 'some description',
         };
         try {
-            const game = await GameApi.createGame(payload);
+            const game = await GameApi.createQuiz(payload);
             dispatch({
                 type: actionTypes.CREATE_GAME_SUCCESS,
                 response: game

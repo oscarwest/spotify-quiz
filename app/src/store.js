@@ -3,14 +3,19 @@ import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
 import createHistory from 'history/createBrowserHistory';
 import rootReducer from './reducers/rootReducer';
+import {
+    init as websocketInit,
+    emit
+} from './actions/websocket';
 
 export const history = createHistory();
 
 const initialState = {};
 const enhancers = [];
 const middleware = [
-    thunk,
-    routerMiddleware(history)
+    // thunk,
+    routerMiddleware(history),
+    thunk.withExtraArgument({ emit })
 ];
 
 if (process.env.NODE_ENV === 'development') {
@@ -29,7 +34,9 @@ const composedEnhancers = compose(
 const store = createStore(
     rootReducer,
     initialState,
-    composedEnhancers
+    composedEnhancers,
 );
+
+websocketInit(store)
 
 export default store;

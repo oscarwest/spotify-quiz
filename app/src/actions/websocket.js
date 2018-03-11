@@ -1,6 +1,5 @@
 import io from 'socket.io-client';
-import { messageTypes, uri } from '../../config';
-
+import { messageTypes, uri } from '../config';
 
 const socket = io(uri);
 

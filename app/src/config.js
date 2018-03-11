@@ -2,6 +2,7 @@ const port = 8888;
 const host = 'localhost';
 
 const messageTypes = [
+    'gameCreatedEvent'
 ].reduce((accum, msg) => {
     accum[msg] = msg;
     return accum;

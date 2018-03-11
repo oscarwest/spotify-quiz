@@ -1,7 +1,7 @@
 import { uri } from '../config';
 
 class GameApi {
-    static createGame = (body) => {
+    static createQuiz = (body) => {
         return fetch(`${uri}/quiz/create`, {
             method: 'POST',
             body: JSON.stringify(body),
