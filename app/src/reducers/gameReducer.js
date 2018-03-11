@@ -16,14 +16,23 @@ export default (state = initialState, action) => {
         case actionTypes.CREATE_GAME_SUCCESS:
             return {
                 ...state,
-                isCreatingGame: !state.isCreatingGame,
+                isCreatingGame: false,
                 game: action.response
             };
 
         case actionTypes.CREATE_GAME_FAILURE:
             return {
                 ...state,
-                isCreatingGame: !state.isCreatingGame
+                isCreatingGame: false,
+                createGameError: action.error
+            };
+
+        case actionTypes.RESET_GAME:
+            return {
+                ...state,
+                isCreatingGame: false,
+                game: null,
+                createGameError: null
             };
 
 

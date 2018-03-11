@@ -8,7 +8,9 @@ import {
 
 class ProfilePage extends Component {
     componentDidMount() {
-        this.props.getProfileAndPlaylists();
+        if (!this.props.profileName || !this.props.playlists) {
+            this.props.getProfileAndPlaylists();
+        }
     }
 
     render() {

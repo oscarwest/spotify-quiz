@@ -23,8 +23,6 @@ export const createGame = (userId, playlistId) => {
                     type: actionTypes.CREATE_GAME_SUCCESS,
                     response: game
                 });
-
-
             }).catch(error => {
                 dispatch({
                     type: actionTypes.CREATE_GAME_FAILURE,
@@ -33,5 +31,14 @@ export const createGame = (userId, playlistId) => {
             });
     };
 };
+
+export const resetGame = (userId, playlistId) => {
+    return dispatch => {
+        dispatch({
+            type: actionTypes.RESET_GAME
+        });
+    };
+};
+
 
 

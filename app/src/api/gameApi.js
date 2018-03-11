@@ -10,7 +10,17 @@ class GameApi {
             })
         })
             .then(response => {
-                return response.json();
+                if (response.status === 200) {
+                    return response.json();
+                }
+                else {
+                    const error = {
+                        status: response.status,
+                        message: response.statusText
+                    };
+                    throw error;
+                }
+
             }).catch(error => {
                 throw error;
             });

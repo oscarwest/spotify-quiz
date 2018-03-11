@@ -7,6 +7,7 @@ import { push } from 'react-router-redux';
 
 import {
     createGame,
+    resetGame
 } from '../../actions/gameActions';
 
 class PlaylistsComponent extends Component {
@@ -15,9 +16,15 @@ class PlaylistsComponent extends Component {
         this.handleOnPlaylistClicked = this.handleOnPlaylistClicked.bind(this);
     }
 
+    componentWillMount() {
+        this.props.resetGame();
+    }
+
     componentDidUpdate(prevProps, prevState) {
         if (this.props.game) {
             this.props.startGame();
+        } else if (this.props.createGameError) {
+            console.log('error: ', this.props.createGameError);
         }
     }
 
@@ -45,12 +52,14 @@ PlaylistComponent.propTypes = {
 
 const mapStateToProps = state => ({
     userId: state.spotify.userId,
-    game: state.game.game
+    game: state.game.game,
+    createGameError: state.game.createGameError
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     createGame,
-    startGame: () => push('/gamehost')
+    resetGame,
+    startGame: () => push('/gamehost'),
 }, dispatch);
 
 export default connect(
