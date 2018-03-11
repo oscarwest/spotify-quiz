@@ -6,8 +6,8 @@ export const createGame = (quiz) =>  {
     }
 }
 
-export const joinGame = (id) =>  {
+export const joinGame = (id, userName) =>  {
   return (dispatch, getState, {emit}) => {
-    emit(actionTypes.WS_JOIN_GAME, id)
+    emit(actionTypes.WS_JOIN_GAME, {id: id, userName: userName})
   }
 }

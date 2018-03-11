@@ -31,14 +31,14 @@ const ioEvents = (io: SocketIO.Server) => {
     });
 
     // Join a Game
-    socket.on('join', (gameId: string) => {
-      socket.join(gameId);
+    socket.on('join', (data: any) => {
+      socket.join(data.id);
 
-      io.to(gameId).emit('userJoinedGameEvent', `{ "userName": "notavail" }`);
+      io.to(data.id).emit('userJoinedGameEvent', `{ "userName": "${data.userName}" }`);
     });
 
     socket.on('answer', (data: any) => {
-      const room = data.gameId;
+      const room = data.id;
       const userName = data.userName;
       const answer = data.answer;
       const question = data.question;
