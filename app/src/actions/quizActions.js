@@ -5,7 +5,7 @@ import GameApi from '../api/gameApi';
 export const createQuiz = (userId, playlistId) => {
     return async dispatch => {
         dispatch({
-            type: actionTypes.CREATE_GAME_REQUESTED
+            type: actionTypes.CREATE_QUIZ_REQUESTED
         });
 
         const payload = {
@@ -18,12 +18,12 @@ export const createQuiz = (userId, playlistId) => {
         try {
             const game = await GameApi.createQuiz(payload);
             dispatch({
-                type: actionTypes.CREATE_GAME_SUCCESS,
+                type: actionTypes.CREATE_QUIZ_SUCCESS,
                 response: game
             });
         } catch (error) {
             dispatch({
-                type: actionTypes.CREATE_GAME_FAILURE,
+                type: actionTypes.CREATE_QUIZ_FAILURE,
                 error: error
             });
         }
@@ -33,7 +33,7 @@ export const createQuiz = (userId, playlistId) => {
 export const resetGame = (userId, playlistId) => {
     return dispatch => {
         dispatch({
-            type: actionTypes.RESET_GAME
+            type: actionTypes.RESET_QUIZ
         });
     };
 };

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { joinGame } from '../../../actions/websocketActions';
+import { push } from 'react-router-redux';
 
 class JoinGame extends Component {
     constructor(props) {
@@ -13,17 +14,19 @@ class JoinGame extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
-        this.setState({ value: event.target.value });
+    handleChange(e) {
+        this.setState({ value: e.target.value });
     }
 
-    handleChange2(event) {
-        this.setState({ userName: event.target.value });
+    handleChange2(e) {
+        this.setState({ userName: e.target.value });
     }
 
-    handleSubmit(event) {
+    handleSubmit(e) {
+        e.preventDefault();
+
         this.props.joinGame(this.state.value, this.state.userName);
-        event.preventDefault();
+        this.props.playingPage();
     }
 
     render() {
@@ -45,7 +48,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    joinGame
+    joinGame,
+    playingPage: () => push('/playing')
 }, dispatch);
 
 export default connect(

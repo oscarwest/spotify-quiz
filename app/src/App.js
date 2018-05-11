@@ -5,6 +5,7 @@ import LoginPage from './containers/GameHost/LoginPage/LoginPage';
 import CallbackPage from './containers/GameHost/CallbackPage/CallbackPage';
 import ProfilePage from './containers/GameHost/ProfilePage/ProfilePage';
 import GameComponent from './containers/GameClient/Game/GameComponent';
+import PlayingContainer from './containers/GameClient/PlayingContainer/PlayingContainer';
 import GameHostPage from './containers/GameHost/GameHostPage/GameHostPage';
 
 
@@ -14,6 +15,7 @@ const App = () => (
       <Route exact path="/" component={GameComponent} />
       <Route path="/game" component={SwipeArea} />
       <Route path="/gamehost" component={GameHostPage} />
+      <Route path="/playing" component={PlayingContainer} />
       <Route path="/login" component={LoginPage} />
       <Route path="/callback" component={CallbackPage} />
       <Route exact path="/profile" component={ProfilePage} />

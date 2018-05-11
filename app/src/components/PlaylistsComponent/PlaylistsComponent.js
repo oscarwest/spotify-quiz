@@ -8,7 +8,7 @@ import { push } from 'react-router-redux';
 import {
     createQuiz,
     resetGame
-} from '../../actions/gameActions';
+} from '../../actions/quizActions';
 
 class PlaylistsComponent extends Component {
     constructor(props) {
@@ -21,7 +21,7 @@ class PlaylistsComponent extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.props.game) {
+        if (this.props.quiz) {
             this.props.startGame();
         }
     }
@@ -53,8 +53,8 @@ PlaylistComponent.propTypes = {
 
 const mapStateToProps = state => ({
     userId: state.spotify.userId,
-    game: state.game.game,
-    createQuizError: state.game.createQuizError
+    quiz: state.quiz.quiz,
+    createQuizError: state.quiz.createQuizError
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

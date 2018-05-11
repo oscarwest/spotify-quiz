@@ -2,42 +2,40 @@ import * as actionTypes from '../actions/actionTypes';
 
 
 const initialState = {
-    game: null,
-    isCreatingGame: false,
+    quiz: null,
+    isCreatingQuiz: false,
 };
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.CREATE_GAME_REQUESTED:
+        case actionTypes.CREATE_QUIZ_REQUESTED:
             return {
                 ...state,
-                isCreatingGame: true
+                isCreatingQuiz: true
             };
-        case actionTypes.CREATE_GAME_SUCCESS:
+        case actionTypes.CREATE_QUIZ_SUCCESS:
             return {
                 ...state,
-                isCreatingGame: false,
-                game: action.response
+                isCreatingQuiz: false,
+                quiz: action.response
             };
 
-        case actionTypes.CREATE_GAME_FAILURE:
+        case actionTypes.CREATE_QUIZ_FAILURE:
             return {
                 ...state,
-                isCreatingGame: false,
+                isCreatingQuiz: false,
                 createQuizError: action.error
             };
 
-        case actionTypes.RESET_GAME:
+        case actionTypes.RESET_QUIZ:
             return {
                 ...state,
-                isCreatingGame: false,
-                game: null,
+                isCreatingQuiz: false,
+                quiz: null,
                 createQuizError: null
             };
-
 
         default:
             return state;
     }
 };
-
