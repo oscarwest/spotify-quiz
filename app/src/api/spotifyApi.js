@@ -38,7 +38,8 @@ class SpotifyApi {
                     resolve(res.items.map(p => {
                         return {
                             name: p.name,
-                            id: p.id
+                            id: p.id,
+                            ownerId: p.owner.id
                         };
                     }));
                 });

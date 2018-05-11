@@ -26,14 +26,13 @@ class PlaylistsComponent extends Component {
         }
     }
 
-    handleOnPlaylistClicked(playlistId) {
-        const userId = this.props.userId;
-        this.props.createQuiz(userId, playlistId);
+    handleOnPlaylistClicked(playlistId, ownerId) {
+        this.props.createQuiz(ownerId, playlistId);
     }
 
     render() {
         const playlist = this.props.playlists.map((p, i) => {
-            return <PlaylistComponent key={i} name={p.name} id={p.id} onPlaylistClicked={this.handleOnPlaylistClicked} />;
+            return <PlaylistComponent key={i} name={p.name} id={p.id} ownerId={p.ownerId} onPlaylistClicked={this.handleOnPlaylistClicked} />;
         });
 
         const errorMessage = this.props.createQuizError ?

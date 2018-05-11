@@ -17,8 +17,8 @@ class ProfilePage extends Component {
         if (this.props.profileName && this.props.playlists) {
             return (
                 <div>
-                    <h1>Profile page</h1>
-                    <p>Welcome: {this.props.profileName}</p>
+                    <h1>Hello there</h1>
+                    <p>Logged in user: {this.props.profileName}</p>
                     <PlaylistsComponent playlists={this.props.playlists} />
                 </div>
             );

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 class PlaylistComponent extends Component {
     handleClick = () => {
-        this.props.onPlaylistClicked(this.props.id);
+        this.props.onPlaylistClicked(this.props.id, this.props.ownerId);
     }
 
     render() {
@@ -15,6 +15,7 @@ class PlaylistComponent extends Component {
 PlaylistComponent.PropTypes = {
     name: PropTypes.string,
     id: PropTypes.string,
+    ownerId: PropTypes.string,
     onPlaylistClicked: PropTypes.any.isRequired
 };
 
