@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { createGame, startGame } from '../../../actions/websocketActions';
+import { createGame, launchGame } from '../../../actions/websocketActions';
 
 class GameHostPage extends Component {
     constructor(props) {
@@ -9,10 +9,12 @@ class GameHostPage extends Component {
         this.props.createGame(this.props.quiz);
     }
 
-    startGameClick = (event) => {
-        this.props.startGame(this.props.quiz);
+    launchGameClick = (event) => {
+        this.props.launchGame(this.props.game.id);
         event.preventDefault();
     }
+
+    
 
     render() {
         const listItems = this.props.users.map((item, index) =>
@@ -22,15 +24,25 @@ class GameHostPage extends Component {
         );
 
         if (this.props.game) {
-            return (
-                <div>
-                    <h1>Game Host</h1>
-                    <br />
-                    <h2>{this.props.game.id}</h2>
-                    <ul>{listItems}</ul>
-                    <button onClick={this.startGameClick}>Start Game</button>
-                </div>
-            );
+            if (this.props.gameStarted) {
+                return (
+                    <div>
+                        {/* <h1>Question {this.props.game. </h1> */}
+                        <p>game running...</p>
+
+                    </div>
+                );
+            } else {
+                return (
+                    <div>
+                        <h1>Game Host</h1>
+                        <br />
+                        <h2>{this.props.game.id}</h2>
+                        <ul>{listItems}</ul>
+                        <button onClick={this.launchGameClick}>Start Game</button>
+                    </div>
+                );
+            }
         } else {
             return <p>Loading...</p>;
         }
@@ -40,12 +52,13 @@ class GameHostPage extends Component {
 const mapStateToProps = state => ({
     quiz: state.quiz.quiz,
     game: state.websocket.game,
-    users: state.websocket.users
+    gameStarted: state.websocket.gameStarted,
+    users: state.websocket.users,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     createGame,
-    startGame
+    launchGame
 }, dispatch);
 
 export default connect(

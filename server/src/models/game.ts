@@ -6,7 +6,7 @@ import { Quiz } from '../models/quiz';
 export class Game {
   id = '';
   quiz : Quiz = null;
-  state : GameState = null;
+  // state : GameState = new GameState();
 
   constructor(data: Game | {} = {}) {
     Object.assign(this, data);
@@ -18,21 +18,27 @@ export class Game {
   }
 }
 
-export class GameState {
-  status : GameStatus = null;
-  currentQuestion = 0;
-  players : Player[];
-}
+// export class GameState {
+//   status : GameStatus = GameStatus.CREATED;
+//   currentQuestion = 0;
+//   players : Player[];
 
-export class Player {
-  username = '';
-  score = 0;
-}
+//   constructor(data: GameState | {} = {}) {
+//     Object.assign(this, data);
 
-enum GameStatus {
-  WAITING,
-  STARTED,
-  RUNNING,
-  STOPPED,
-  PAUSED,
-}
+//     this.players = [];
+//   }
+// }
+
+// export class Player {
+//   username = '';
+//   score = 0;
+// }
+
+// enum GameStatus {
+//   CREATED,
+//   WAITING,
+//   STARTED,
+//   RUNNING,
+//   STOPPED,
+// }

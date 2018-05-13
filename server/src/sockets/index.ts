@@ -22,24 +22,28 @@ const ioEvents = (io: SocketIO.Server) => {
     console.log('backend ws connection');
 
     // Create a Game
-    socket.on('create', async (data: Quiz) => {
+    socket.on('WS_CREATE_GAME', async (data: Quiz) => {
       const gameService = new GameService();
       const game = await gameService.createGame(data);
 
       socket.join(game.id);
-      io.to(game.id).emit('gameCreatedEvent', JSON.stringify(game));
+      io.to(game.id).emit('WS_GAME_CREATED', JSON.stringify(game));
+    });
+
+    socket.on('WS_LAUNCH_GAME', (data: any) => {
+      io.to(data.id).emit('WS_GAME_STARTED');
     });
 
     // Set Game State
-    socket.on('setstate', async (data: Game) => {
-      // set redis state
-    });
+    // socket.on('setstate', async (data: any) => {
+    //   // set redis state
+    // });
 
     // Join a Game
-    socket.on('join', (data: any) => {
+    socket.on('WS_JOIN_GAME', (data: any) => {
       socket.join(data.id);
 
-      io.to(data.id).emit('userJoinedGameEvent', `{ "userName": "${data.userName}" }`);
+      io.to(data.id).emit('WS_USER_JOINED_GAME', `{ "userName": "${data.userName}" }`);
     });
 
     // Answer a question
@@ -59,8 +63,10 @@ const ioEvents = (io: SocketIO.Server) => {
     });
 
     // Next question
-    socket.on('nextQuestion', (room: string) => {
-      io.sockets.in(room).emit('nextQuestionEvent');
+    socket.on('WS_NEXT_QUESTION', (data: any) => {
+      io.to(data.id).emit('WS_NEXT_QUESTION', `
+        { "questionNumber": "${data.questionNumber}", "timestamp": "${data.timestamp}" }
+      `);
     });
 
     socket.on('disconnect', () => {

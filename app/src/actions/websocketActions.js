@@ -12,8 +12,8 @@ export const joinGame = (id, userName) =>  {
   }
 }
 
-export const startGame = (game) =>  {
+export const launchGame = (id) =>  {
   return (dispatch, getState, {emit}) => {
-    emit(actionTypes.WS_START_GAME, game)
+    emit(actionTypes.WS_LAUNCH_GAME, {id: id})
   }
 }

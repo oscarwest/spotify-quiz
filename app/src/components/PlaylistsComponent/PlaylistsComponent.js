@@ -22,7 +22,7 @@ class PlaylistsComponent extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (this.props.quiz) {
-            this.props.startGame();
+            this.props.launchGame();
         }
     }
 
@@ -60,7 +60,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators({
     createQuiz,
     resetGame,
-    startGame: () => push('/gamehost'),
+    launchGame: () => push('/gamehost'),
 }, dispatch);
 
 export default connect(
