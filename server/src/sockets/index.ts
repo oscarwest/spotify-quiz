@@ -30,6 +30,11 @@ const ioEvents = (io: SocketIO.Server) => {
       io.to(game.id).emit('gameCreatedEvent', JSON.stringify(game));
     });
 
+    // Set Game State
+    socket.on('setstate', async (data: Game) => {
+      // set redis state
+    });
+
     // Join a Game
     socket.on('join', (data: any) => {
       socket.join(data.id);
@@ -37,6 +42,7 @@ const ioEvents = (io: SocketIO.Server) => {
       io.to(data.id).emit('userJoinedGameEvent', `{ "userName": "${data.userName}" }`);
     });
 
+    // Answer a question
     socket.on('answer', (data: any) => {
       const room = data.id;
       const userName = data.userName;
@@ -52,6 +58,7 @@ const ioEvents = (io: SocketIO.Server) => {
       io.sockets.in(room).emit('answerReceivedEvent', JSON.stringify(res));
     });
 
+    // Next question
     socket.on('nextQuestion', (room: string) => {
       io.sockets.in(room).emit('nextQuestionEvent');
     });

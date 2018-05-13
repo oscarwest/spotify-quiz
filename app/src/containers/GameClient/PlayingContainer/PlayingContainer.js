@@ -8,6 +8,7 @@ class PlayingContainer extends Component {
         return (
             <div>
                 <h1>Playing container component</h1>
+                <p>waiting for game to start...</p>
             </div>
         );
     }
