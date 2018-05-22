@@ -7,11 +7,11 @@ class PlayingContainer extends Component {
 
 
     render() {
-        const redirect = this.props.users.length < 1;
+        //const redirect = this.props.users.length < 1;
 
-        if (redirect) {
-            return <Redirect to="/" />;
-        }
+        // if (redirect) {
+        //     return <Redirect to="/" />;
+        // }
 
         if (this.props.gameStarted) {
             return (
