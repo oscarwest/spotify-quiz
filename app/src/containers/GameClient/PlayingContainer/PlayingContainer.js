@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
-// import { push } from 'react-router-redux';
+import { Redirect } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 class PlayingContainer extends Component {
 
-    componentDidUpdate = (prev, nott) => {
-        console.log('äasf');
-        
-    }
 
     render() {
+        const redirect = this.props.users.length < 1;
+
+        if (redirect) {
+            return <Redirect to="/" />;
+        }
+
         if (this.props.gameStarted) {
             return (
                 <div>
                     <p>swipe or something</p>
                 </div>
-            )
+            );
         } else {
             return (
                 <div>
@@ -29,7 +31,8 @@ class PlayingContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-    gameStarted: state.websocket.gameStarted
+    gameStarted: state.websocket.gameStarted,
+    users: state.websocket.users
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

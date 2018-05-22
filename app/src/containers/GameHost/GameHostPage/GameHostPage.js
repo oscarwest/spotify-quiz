@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createGame, launchGame } from '../../../actions/websocketActions';
@@ -6,6 +7,9 @@ import { createGame, launchGame } from '../../../actions/websocketActions';
 class GameHostPage extends Component {
     constructor(props) {
         super(props);
+        if (!this.props.quiz) {
+            this.props.redirect();
+        }
         this.props.createGame(this.props.quiz);
     }
 
@@ -13,8 +17,6 @@ class GameHostPage extends Component {
         this.props.launchGame(this.props.game.id);
         event.preventDefault();
     }
-
-    
 
     render() {
         const listItems = this.props.users.map((item, index) =>
@@ -39,7 +41,7 @@ class GameHostPage extends Component {
                         <br />
                         <h2>{this.props.game.id}</h2>
                         <ul>{listItems}</ul>
-                        <button onClick={this.launchGameClick}>Start Game</button>
+                        <button onClick={this.launchGameClick} disabled={this.props.users.length < 1}>Start Game</button>
                     </div>
                 );
             }
@@ -58,10 +60,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     createGame,
-    launchGame
+    launchGame,
+    redirect: () => push('/profile')
 }, dispatch);
-
 export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(GameHostPage);
+
