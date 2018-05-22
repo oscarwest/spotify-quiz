@@ -31,7 +31,10 @@ const ioEvents = (io: SocketIO.Server) => {
     });
 
     socket.on('WS_LAUNCH_GAME', (data: any) => {
-      io.to(data.id).emit('WS_GAME_STARTED');
+      const now = new Date().toISOString();
+      io.to(data.id).emit('WS_GAME_STARTED', `
+        { "questionNumber": 0, "timestamp": "${now}" }
+      `);
     });
 
     // Set Game State
@@ -64,8 +67,9 @@ const ioEvents = (io: SocketIO.Server) => {
 
     // Next question
     socket.on('WS_NEXT_QUESTION', (data: any) => {
-      io.to(data.id).emit('WS_NEXT_QUESTION', `
-        { "questionNumber": "${data.questionNumber}", "timestamp": "${data.timestamp}" }
+      const now = new Date().toISOString();
+      io.to(data.id).emit('WS_NEXT_QUESTION_RESPONSE', `
+        { "questionNumber": ${data.questionNumber}, "timestamp": "${now}" }
       `);
     });
 

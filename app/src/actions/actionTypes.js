@@ -17,6 +17,7 @@ export const WS_GAME_CREATED = 'WS_GAME_CREATED';
 export const WS_CREATE_GAME = 'WS_CREATE_GAME';
 export const WS_GAME_STARTED = 'WS_GAME_STARTED';
 export const WS_NEXT_QUESTION = 'WS_NEXT_QUESTION';
+export const WS_NEXT_QUESTION_RESPONSE = 'WS_NEXT_QUESTION_RESPONSE';
 
 export const WS_LAUNCH_GAME = 'WS_LAUNCH_GAME';
 export const WS_START_GAME = 'WS_START_GAME';
@@ -25,3 +26,6 @@ export const WS_USER_JOINED_GAME = 'WS_USER_JOINED_GAME';
 
 
 export const WSO_START_GAME = 'WS_START_GAME';
+
+export const GAME_TICK = 'GAME_TICK';
+

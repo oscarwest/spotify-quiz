@@ -4,7 +4,8 @@ const initialState = {
     users: [],
     game: null,
     gameStarted: false,
-    currentQuestion: 0
+    currentQuestion: 0,
+    counter: 0
 };
 
 export default (state = initialState, action) => {
@@ -24,12 +25,20 @@ export default (state = initialState, action) => {
         case actionTypes.WS_GAME_STARTED:
             return {
                 ...state,
+                currentQuestion: JSON.parse(action.payload).questionNumber,
+                counter: 0,
                 gameStarted: true
             }
-        case actionTypes.WS_NEXT_QUESTION:
+        case actionTypes.WS_NEXT_QUESTION_RESPONSE:
             return {
                 ...state,
+                counter: 0,
                 currentQuestion: JSON.parse(action.payload).questionNumber
+            }
+        case actionTypes.GAME_TICK:
+            return {
+                ...state,
+                counter: state.counter + 1
             }
 
         default:
