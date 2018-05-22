@@ -6,13 +6,10 @@ import { Quiz } from '../models/quiz';
 export class Game {
   id = '';
   quiz : Quiz = null;
-  // shortId = '';
+  // state : GameState = new GameState();
 
   constructor(data: Game | {} = {}) {
     Object.assign(this, data);
-    // if (!this.id) {
-    //   this.id = uuid.v4();
-    // }
 
     if (!this.id) {
       this.id = shortid.generate().toUpperCase();
@@ -20,3 +17,28 @@ export class Game {
 
   }
 }
+
+// export class GameState {
+//   status : GameStatus = GameStatus.CREATED;
+//   currentQuestion = 0;
+//   players : Player[];
+
+//   constructor(data: GameState | {} = {}) {
+//     Object.assign(this, data);
+
+//     this.players = [];
+//   }
+// }
+
+// export class Player {
+//   username = '';
+//   score = 0;
+// }
+
+// enum GameStatus {
+//   CREATED,
+//   WAITING,
+//   STARTED,
+//   RUNNING,
+//   STOPPED,
+// }

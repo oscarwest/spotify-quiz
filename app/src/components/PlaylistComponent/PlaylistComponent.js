@@ -12,7 +12,7 @@ class PlaylistComponent extends Component {
     }
 }
 
-PlaylistComponent.PropTypes = {
+PlaylistComponent.propTypes = {
     name: PropTypes.string,
     id: PropTypes.string,
     ownerId: PropTypes.string,

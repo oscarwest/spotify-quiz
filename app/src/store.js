@@ -31,12 +31,20 @@ const composedEnhancers = compose(
     ...enhancers
 );
 
+// Persist state to localstorage for now..
+// const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {};
+
 const store = createStore(
     rootReducer,
     initialState,
     composedEnhancers,
+    // persistedState,
 );
 
 websocketInit(store)
+
+// store.subscribe(()=>{
+//     localStorage.setItem('reduxState', JSON.stringify(store.getState()))
+// });
 
 export default store;

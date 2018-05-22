@@ -22,21 +22,34 @@ const ioEvents = (io: SocketIO.Server) => {
     console.log('backend ws connection');
 
     // Create a Game
-    socket.on('create', async (data: Quiz) => {
+    socket.on('WS_CREATE_GAME', async (data: Quiz) => {
       const gameService = new GameService();
       const game = await gameService.createGame(data);
 
       socket.join(game.id);
-      io.to(game.id).emit('gameCreatedEvent', JSON.stringify(game));
+      io.to(game.id).emit('WS_GAME_CREATED', JSON.stringify(game));
     });
+
+    socket.on('WS_LAUNCH_GAME', (data: any) => {
+      const now = new Date().toISOString();
+      io.to(data.id).emit('WS_GAME_STARTED', `
+        { "questionNumber": 0, "timestamp": "${now}" }
+      `);
+    });
+
+    // Set Game State
+    // socket.on('setstate', async (data: any) => {
+    //   // set redis state
+    // });
 
     // Join a Game
-    socket.on('join', (data: any) => {
+    socket.on('WS_JOIN_GAME', (data: any) => {
       socket.join(data.id);
 
-      io.to(data.id).emit('userJoinedGameEvent', `{ "userName": "${data.userName}" }`);
+      io.to(data.id).emit('WS_USER_JOINED_GAME', `{ "userName": "${data.userName}" }`);
     });
 
+    // Answer a question
     socket.on('answer', (data: any) => {
       const room = data.id;
       const userName = data.userName;
@@ -52,8 +65,12 @@ const ioEvents = (io: SocketIO.Server) => {
       io.sockets.in(room).emit('answerReceivedEvent', JSON.stringify(res));
     });
 
-    socket.on('nextQuestion', (room: string) => {
-      io.sockets.in(room).emit('nextQuestionEvent');
+    // Next question
+    socket.on('WS_NEXT_QUESTION', (data: any) => {
+      const now = new Date().toISOString();
+      io.to(data.id).emit('WS_NEXT_QUESTION_RESPONSE', `
+        { "questionNumber": ${data.questionNumber}, "timestamp": "${now}" }
+      `);
     });
 
     socket.on('disconnect', () => {

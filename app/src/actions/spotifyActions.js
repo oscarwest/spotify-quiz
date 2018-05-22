@@ -40,7 +40,7 @@ export const getPlaylists = (userId) => {
     };
 };
 
-export const getProfileAndPlaylists = (userId) => {
+export const getProfileAndPlaylists = () => {
     return async (dispatch, getState) => {
         await dispatch(getProfile());
         const userId = getState().spotify.userId;

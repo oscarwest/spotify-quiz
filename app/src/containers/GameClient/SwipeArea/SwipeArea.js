@@ -1,5 +1,5 @@
 import React from 'react';
-import SwipeEventComponent from '../../../components/SwipeEventComponent';
+import SwipeEventComponent from '../../../components/SwipeEventComponent/SwipeEventComponent';
 import './SwipeArea.css';
 
 class SwipeArea extends SwipeEventComponent {
