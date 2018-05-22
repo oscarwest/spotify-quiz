@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import SwipeArea from './containers/GameClient/SwipeArea/SwipeArea';
 import LoginPage from './containers/GameHost/LoginPage/LoginPage';
-import CallbackPage from './containers/GameHost/CallbackPage/CallbackPage';
 import ProfilePage from './containers/GameHost/ProfilePage/ProfilePage';
 import HomeComponent from './containers/Home/HomeComponent';
 import PlayingContainer from './containers/GameClient/PlayingContainer/PlayingContainer';
