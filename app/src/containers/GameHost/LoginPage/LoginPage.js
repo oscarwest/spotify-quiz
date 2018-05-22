@@ -3,10 +3,31 @@ import React, { Component } from 'react';
 const stateKey = 'spotify_auth_state';
 
 class LoginPage extends Component {
+    componentWillMount() {
+        const params = this.getHashParams();
+        const access_token = params.access_token;
+
+        if (access_token) {
+            localStorage.setItem('access_token', access_token);
+            window.location = 'http://localhost:3000/profile';
+        }
+    }
+
+    getHashParams() {
+        let e;
+        const hashParams = {};
+        const r = /([^&;=]+)=?([^&;]*)/g;
+        const q = window.location.hash.substring(1);
+        while (e = r.exec(q)) {
+            hashParams[e[1]] = decodeURIComponent(e[2]);
+        }
+
+        return hashParams;
+    }
 
     login() {
         const client_id = 'eff83e6b5dfe489092cde0ec5f788a4c'; // Your client id
-        const redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
+        const redirect_uri = 'http://localhost:3000/login'; // Your redirect uri
 
         const state = this.generateRandomString(16);
 

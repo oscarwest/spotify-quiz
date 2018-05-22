@@ -17,7 +17,6 @@ const App = () => (
       <Route path="/gamehost" component={GameHostPage} />
       <Route path="/playing" component={PlayingContainer} />
       <Route path="/login" component={LoginPage} />
-      <Route path="/callback" component={CallbackPage} />
       <Route exact path="/profile" component={ProfilePage} />
       {/* <Route exact path="/profile" render={() => (
         store.getState().spotify.userId ? (
