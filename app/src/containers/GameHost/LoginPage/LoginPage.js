@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 const stateKey = 'spotify_auth_state';
 
 class LoginPage extends Component {
+    access_token;
     componentWillMount() {
         const params = this.getHashParams();
-        const access_token = params.access_token;
+        this.access_token = params.access_token;
 
-        if (access_token) {
-            localStorage.setItem('access_token', access_token);
-            window.location = 'http://localhost:3000/profile';
+        if (this.access_token) {
+            localStorage.setItem('access_token', this.access_token);
         }
     }
 
@@ -55,14 +56,20 @@ class LoginPage extends Component {
     };
 
     render() {
-        return (
-            <div>
-                <h1>Login here</h1>
-                <button onClick={() => this.login()}>
-                    Log in with Spotify
+        if (this.access_token) {
+            return (
+                <Redirect to="/profile" />
+            );
+        } else {
+            return (
+                <div>
+                    <h1>Login here</h1>
+                    <button onClick={() => this.login()}>
+                        Log in with Spotify
                 </button>
-            </div>
-        );
+                </div>
+            );
+        }
     }
 }
 

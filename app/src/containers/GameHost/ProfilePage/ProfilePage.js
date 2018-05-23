@@ -8,6 +8,14 @@ import {
     createQuiz,
     resetGame
 } from '../../../actions/quizActions';
+import styled from 'styled-components';
+
+const PlayListContainer = styled.div`
+  display: flex;
+  margin:0 -15px;
+  overflow: scroll;
+`;
+
 
 class ProfilePage extends Component {
 
@@ -39,7 +47,7 @@ class ProfilePage extends Component {
     render() {
         if (this.props.profileName && this.props.playlists) {
             const playlist = this.props.playlists.map((p, i) => {
-                return <PlaylistComponent key={i} name={p.name} id={p.id} ownerId={p.ownerId} onPlaylistClicked={this.handleOnPlaylistClicked} />;
+                return <PlaylistComponent key={i} name={p.name} id={p.id} ownerId={p.ownerId} imageUrl={p.imageUrl} onPlaylistClicked={this.handleOnPlaylistClicked} />;
             });
 
             const errorMessage = this.props.createQuizError ?
@@ -50,7 +58,9 @@ class ProfilePage extends Component {
                     <h1>Hello there</h1>
                     <p>Logged in user: {this.props.profileName}</p>
                     {errorMessage}
-                    <ul>{playlist}</ul>
+                    <PlayListContainer>
+                        {playlist}
+                    </PlayListContainer>
                 </div>
             );
         } else {

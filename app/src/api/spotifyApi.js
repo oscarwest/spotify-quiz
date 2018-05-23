@@ -12,13 +12,12 @@ class SpotifyApi {
                 json: true,
             };
 
-            try {
-                rp(opts).then((res) => {
+            rp(opts)
+                .then((res) => {
                     resolve(res);
+                }).catch((error) => {
+                    reject(error);
                 });
-            } catch (error) {
-                reject(error);
-            }
         });
     }
 
@@ -39,7 +38,8 @@ class SpotifyApi {
                         return {
                             name: p.name,
                             id: p.id,
-                            ownerId: p.owner.id
+                            ownerId: p.owner.id,
+                            imageUrl: p.images[0].url
                         };
                     }));
                 });
