@@ -1,6 +1,21 @@
 import React from 'react';
+import styled from 'styled-components';
 import SwipeEventComponent from '../../../components/SwipeEventComponent/SwipeEventComponent';
-import './SwipeArea.css';
+
+const TouchArea = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: hotpink;
+  position: absolute;
+`;
+
+const CenterText = styled.p`
+  color: white;
+  font-size: 20px;
+`;
 
 class SwipeArea extends SwipeEventComponent {
   constructor(props) {
@@ -54,9 +69,9 @@ class SwipeArea extends SwipeEventComponent {
 
   render() {
     return (
-      <div className="SwipeArea" {...this.touchEventProperties}>
-        <p className="SwipeText">{this.state.text}</p>
-      </div>
+      <TouchArea {...this.touchEventProperties}>
+        <CenterText>{this.state.text}</CenterText>
+      </TouchArea>
     );
   }
 }

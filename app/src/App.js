@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import SwipeArea from './containers/GameClient/SwipeArea/SwipeArea';
 import LoginPage from './containers/GameHost/LoginPage/LoginPage';
 import ProfilePage from './containers/GameHost/ProfilePage/ProfilePage';
