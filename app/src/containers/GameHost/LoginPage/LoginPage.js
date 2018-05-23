@@ -33,7 +33,7 @@ class LoginPage extends Component {
         const state = this.generateRandomString(16);
 
         localStorage.setItem(stateKey, state);
-        const scope = 'user-read-private user-read-email';
+        const scope = 'user-read-private user-read-email playlist-read-private playlist-read-collaborative';
 
         let url = 'https://accounts.spotify.com/authorize';
         url += '?response_type=token';
