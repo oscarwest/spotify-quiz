@@ -21,6 +21,10 @@ const ButtonElement = styled.button`
     &:active {
         background-color: black;
     }
+
+    &.disabled {
+        background-color: #ddd;
+    }
 `;
 
 class Button extends Component {
@@ -28,8 +32,9 @@ class Button extends Component {
     render() {
         return (
             <ButtonElement
+                className={this.props.disabled ? 'disabled' : ''}
                 type={this.props.type}
-                isabled={this.props.disabled}
+                disabled={this.props.disabled}
                 onClick={this.props.onClick}>{this.props.text}
             </ButtonElement>
 
