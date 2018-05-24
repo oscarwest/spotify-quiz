@@ -2,8 +2,23 @@ import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Container, LargePageTitle, LargePageSubtitle } from '../../assets/styles';
 import Button from '../../../components/ButtonComponent/ButtonComponent';
 import { createGame, launchGame, gameTick, nextQuestion } from '../../../actions/websocketActions';
+import styled from 'styled-components';
+
+const PlayerName = styled.p`
+    font-size: 30px;
+    color: black;
+`;
+
+const PlayerContainer = styled.div`
+    background-color: rgba(255, 255, 255, 0.5);
+    min-height: 300px;
+    width: 400px;
+    margin: auto;
+`;
+
 
 class GameHostPage extends Component {
     refreshIntervalId = null;
@@ -40,9 +55,14 @@ class GameHostPage extends Component {
 
         if (this.props.counter === 5) {
             clearInterval(this.refreshIntervalId);
-            setTimeout(() => {
-                this.props.nextQuestion(this.props.game.id, this.props.currentQuestion + 1);
-            }, 1000);
+            if (this.props.game && this.props.currentQuestion < this.props.game.quiz.questions.length) {
+                setTimeout(() => {
+                    this.props.nextQuestion(this.props.game.id, this.props.currentQuestion + 1);
+                }, 1000);
+            } else {
+                // game ended
+                console.log('Game ended');
+            }
         }
     }
 
@@ -55,30 +75,32 @@ class GameHostPage extends Component {
     }
 
     render() {
-        const listItems = this.props.users.map((item, index) =>
-            <li key={index}>
+        const players = this.props.users.map((item, index) =>
+            <PlayerName key={index}>
                 {item}
-            </li>
+            </PlayerName>
         );
 
         if (this.props.game) {
             if (this.props.gameStarted) {
                 return (
-                    <div>
+                    <Container>
                         <p>{this.props.counter}</p>
                         <p>Current Question: {this.props.currentQuestion}</p>
                         <p>game running...</p>
-                    </div>
+                    </Container>
                 );
             } else {
                 return (
-                    <div>
-                        <h1>Game Host</h1>
-                        <br />
-                        <h2>{this.props.game.id}</h2>
-                        <ul>{listItems}</ul>
-                        <Button text="Start game" onClick={this.launchGameClick} disabled={this.props.users.length < 0} />
-                    </div>
+                    <Container>
+                        <LargePageTitle>{this.props.game.id}</LargePageTitle>
+                        <LargePageSubtitle>Go to localhost:3000 to join game</LargePageSubtitle>
+                        <PlayerContainer>
+                            <p>Joined players</p>
+                            {players}
+                        </PlayerContainer>
+                        <Button text="Start game" onClick={this.launchGameClick} disabled={this.props.users.length < 1} />
+                    </Container>
                 );
             }
         } else {
@@ -93,7 +115,7 @@ const mapStateToProps = state => ({
     gameStarted: state.websocket.gameStarted,
     users: state.websocket.users,
     counter: state.websocket.counter,
-    currentQuestion: state.websocket.currentQuestion
+    currentQuestion: state.websocket.currentQuestion,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

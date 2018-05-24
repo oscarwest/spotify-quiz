@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-
+import Button from '../../../components/ButtonComponent/ButtonComponent';
 const stateKey = 'spotify_auth_state';
 
 class LoginPage extends Component {
@@ -64,9 +64,9 @@ class LoginPage extends Component {
             return (
                 <div>
                     <h1>Login here</h1>
-                    <button onClick={() => this.login()}>
+                    <Button onClick={() => this.login()}>
                         Log in with Spotify
-                </button>
+                    </Button>
                 </div>
             );
         }
