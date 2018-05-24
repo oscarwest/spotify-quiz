@@ -6,6 +6,8 @@ import Button from '../../../components/ButtonComponent/ButtonComponent';
 import { createGame, launchGame, gameTick, nextQuestion } from '../../../actions/websocketActions';
 
 class GameHostPage extends Component {
+    refreshIntervalId = null;
+
     constructor(props) {
         super(props);
 
@@ -32,16 +34,20 @@ class GameHostPage extends Component {
         }
 
         if (prevProps.gameStarted && prevProps.currentQuestion < this.props.currentQuestion) {
+            // start timer for new question
             this.tick();
         }
 
         if (this.props.counter === 5) {
-            this.props.nextQuestion(this.props.game.id, this.props.currentQuestion + 1);
+            clearInterval(this.refreshIntervalId);
+            setTimeout(() => {
+                this.props.nextQuestion(this.props.game.id, this.props.currentQuestion + 1);
+            }, 1000);
         }
     }
 
     tick = () => {
-        setInterval(() => {
+        this.refreshIntervalId = setInterval(() => {
             this.props.gameTick();
         },
             1000
@@ -71,7 +77,7 @@ class GameHostPage extends Component {
                         <br />
                         <h2>{this.props.game.id}</h2>
                         <ul>{listItems}</ul>
-                        <Button text="Start game" onClick={this.launchGameClick} disabled={this.props.users.length < 1} />
+                        <Button text="Start game" onClick={this.launchGameClick} disabled={this.props.users.length < 0} />
                     </div>
                 );
             }
