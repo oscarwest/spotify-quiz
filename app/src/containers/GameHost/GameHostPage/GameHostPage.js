@@ -9,6 +9,7 @@ import styled from 'styled-components';
 
 const PlayerName = styled.p`
     font-size: 30px;
+    margin: 0;
     color: black;
 `;
 
@@ -17,6 +18,12 @@ const PlayerContainer = styled.div`
     min-height: 300px;
     width: 400px;
     margin: auto;
+    padding: 5px;
+    margin-bottom: 20px;
+
+    h3 {
+        margin-bottom: 10px 0;
+    }
 `;
 
 
@@ -96,7 +103,7 @@ class GameHostPage extends Component {
                         <LargePageTitle>{this.props.game.id}</LargePageTitle>
                         <LargePageSubtitle>Go to localhost:3000 to join game</LargePageSubtitle>
                         <PlayerContainer>
-                            <p>Joined players</p>
+                            <h3>Joined players</h3>
                             {players}
                         </PlayerContainer>
                         <Button text="Start game" onClick={this.launchGameClick} disabled={this.props.users.length < 1} />

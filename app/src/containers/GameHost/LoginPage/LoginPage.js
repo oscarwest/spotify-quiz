@@ -64,9 +64,7 @@ class LoginPage extends Component {
             return (
                 <div>
                     <h1>Login here</h1>
-                    <Button onClick={() => this.login()}>
-                        Log in with Spotify
-                    </Button>
+                    <Button text="Log in with Spotify" onClick={() => this.login()} />
                 </div>
             );
         }
