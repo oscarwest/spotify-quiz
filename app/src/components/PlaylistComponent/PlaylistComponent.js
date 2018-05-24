@@ -3,23 +3,32 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const PlayList = styled.div`
-  width: 300px;
-  height: 350px;
+  min-width: 280px;
+  max-width: 280px;
+  height: 280px;
   position: relative;
   cursor: pointer;
   padding:0 15px;
+
+  transition: 0.2s ease; 
+
+  &:hover {
+    min-width: 300px;
+    max-width: 300px;
+    height: 300px;     
+  }
 `;
 
 const CoverImage = styled.img`
-  width: 300px;
-  height: 300px;
+  width: 100%;
+  height: 100%;
 `;
 
 const PlaylistName = styled.h3`
-  width: 280px;
+  width: calc(100% -  50px);
   height: 50px;
   position: absolute;
-  bottom: 0;
+  bottom: 0px;
   padding: 0 10px;
   margin: 0;
   background-color: black;

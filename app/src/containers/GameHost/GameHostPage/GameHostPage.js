@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Button from '../../../components/ButtonComponent/ButtonComponent';
 import { createGame, launchGame, gameTick, nextQuestion } from '../../../actions/websocketActions';
 
 class GameHostPage extends Component {
@@ -14,7 +15,7 @@ class GameHostPage extends Component {
 
         this.props.createGame(this.props.quiz);
     }
-    
+
     componentWillUnmount = () => {
         clearInterval(this.timerID);
     }
@@ -42,7 +43,7 @@ class GameHostPage extends Component {
     tick = () => {
         setInterval(() => {
             this.props.gameTick();
-            },
+        },
             1000
         );
     }
@@ -70,7 +71,7 @@ class GameHostPage extends Component {
                         <br />
                         <h2>{this.props.game.id}</h2>
                         <ul>{listItems}</ul>
-                        <button onClick={this.launchGameClick} disabled={this.props.users.length < 1}>Start Game</button>
+                        <Button text="Start game" onClick={this.launchGameClick} disabled={this.props.users.length < 1} />
                     </div>
                 );
             }

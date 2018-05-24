@@ -12,7 +12,9 @@ import styled from 'styled-components';
 
 const PlayListContainer = styled.div`
   display: flex;
+  align-items: center;
   margin:0 -15px;
+  height: 400px;
   overflow: scroll;
 `;
 

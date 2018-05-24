@@ -3,8 +3,25 @@ import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { joinGame } from '../../actions/websocketActions';
+import TextInput from '../../components/TextInputComponent/TextInputComponent';
+import Button from '../../components/ButtonComponent/ButtonComponent';
+import styled from 'styled-components';
 
-class HomeComponnet extends Component {
+const FormContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    max-width: 320px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+`;
+
+const JoinForm = styled.form`
+    display: flex;
+    flex-direction: column;
+`;
+
+class HomeComponent extends Component {
     constructor(props) {
         super(props);
         this.state = { gameId: '', userName: '' };
@@ -31,17 +48,19 @@ class HomeComponnet extends Component {
 
     render() {
         return (
-            <div>
+            <FormContainer>
                 <h1>HomeComponent</h1>
-                <h2>join game or login tyo create a new game</h2>
-                <form>
-                    <input placeholder="id" type="text" value={this.state.gameId} onChange={this.handleChangeId} maxLength="9" />
+                <h2>Join a game</h2>
+                <JoinForm>
+                    <TextInput placeholder="Game ID" value={this.state.gameId} onChange={this.handleChangeId} maxLength="9" />
                     <br />
-                    <input placeholder="username" type="text" value={this.state.userName} onChange={this.handleChangeUserName} maxLength="9" />
-                    <button type="submit" disabled={this.state.gameId.length < 9 || this.state.userName.length < 3} onClick={this.handleSubmit}>Join!</button>
-                </form>
-                <button onClick={() => this.props.loginPage()}>Go to login page via redux</button>
-            </div>
+                    <TextInput placeholder="User alias" value={this.state.userName} onChange={this.handleChangeUserName} maxLength="9" />
+                    <br />
+                    <Button text="Join game!" type="submit" disabled={this.state.gameId.length < 9 || this.state.userName.length < 3} onClick={this.handleSubmit} />
+                </JoinForm>
+                <h4>... or create a new game</h4>
+                <Button text="Create game" onClick={() => this.props.loginPage()} />
+            </FormContainer>
         );
     }
 }
@@ -55,4 +74,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 export default connect(
     null,
     mapDispatchToProps
-)(HomeComponnet);
+)(HomeComponent);
