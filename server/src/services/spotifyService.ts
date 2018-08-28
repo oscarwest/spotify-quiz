@@ -35,16 +35,18 @@ export class SpotifyService {
     try {
       const res = await rp(opts);
 
-      const songs = res.items.map((item: any) => {
-            	return new Song(
-              {
-                artistName: item.track.artists[0].name,
-                id: item.track.id,
-                trackName: item.track.name,
-                previewUrl: item.track.preview_url,
-              },
-              );
-      });
+      const songs = res.tracks.items
+        .filter((item : any) => item.track.preview_url != null)
+        .map((item: any) => {
+          return new Song(
+            {
+              artistName: item.track.artists[0].name,
+              id: item.track.id,
+              trackName: item.track.name,
+              previewUrl: item.track.preview_url,
+            },
+          );
+        });
 
       return Promise.resolve(songs);
     } catch (error) {
