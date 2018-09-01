@@ -50,14 +50,24 @@ class GameHostPage extends Component {
     }
 
     componentDidUpdate = (prevProps, prevState) => {
+        let audio = new Audio();
+        let playingSongIndex = this.props.game.quiz.questions[this.props.currentQuestion].answer;
+        let playingSong = this.props.game.quiz.questions[this.props.currentQuestion].songs[playingSongIndex];
+
         if (!prevProps.gameStarted && this.props.gameStarted && this.props.currentQuestion === 0) {
             // Start Timer for first question
             this.tick();
+
+            audio.src = playingSong.previewUrl;
+            audio.play();
         }
 
         if (prevProps.gameStarted && prevProps.currentQuestion < this.props.currentQuestion) {
             // start timer for new question
             this.tick();
+
+            audio.src = playingSong.previewUrl;
+            audio.play();
         }
 
         if (this.props.counter === 5) {

@@ -20,7 +20,7 @@ export class SpotifyService {
   public async getSongs(userId: string, playlistId: string) : Promise<Song[]> {
     const token = await this.getAccessToken();
         // use the access token to access the Spotify Web API
-    const fieldsParams = 'fields=items(track(id%2C%20name%2C%20artists(name)))';
+    const fieldsParams = 'fields=items(track(preview_url%2C%20id%2C%20name%2C%20artists(name)))';
     const opts = {
       method: 'GET',
       url: 'https://api.spotify.com/v1/users/' + userId + '/playlists/'
@@ -35,15 +35,18 @@ export class SpotifyService {
     try {
       const res = await rp(opts);
 
-      const songs = res.items.map((item: any) => {
-            	return new Song(
-              {
-                artistName: item.track.artists[0].name,
-                id: item.track.id,
-                trackName: item.track.name,
-              },
-              );
-      });
+      const songs = res.tracks.items
+        .filter((item : any) => item.track.preview_url != null)
+        .map((item: any) => {
+          return new Song(
+            {
+              artistName: item.track.artists[0].name,
+              id: item.track.id,
+              trackName: item.track.name,
+              previewUrl: item.track.preview_url,
+            },
+          );
+        });
 
       return Promise.resolve(songs);
     } catch (error) {
