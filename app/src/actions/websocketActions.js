@@ -8,7 +8,15 @@ export const createGame = (quiz) => {
 
 export const joinGame = (id, userName) => {
   return (dispatch, getState, { emit }) => {
+    // Send Websocket request to Join game channel
     emit(actionTypes.WS_JOIN_GAME, { id, userName });
+
+    // Dispatch event to set initial client state
+    dispatch({
+        type: actionTypes.SET_CLIENT_INITIAL_STATE,
+        id: id,
+        userName: userName
+    });
   };
 };
 
@@ -29,5 +37,11 @@ export const gameTick = () => {
 export const nextQuestion = (id, questionNumber) => {
   return (dispatch, getState, { emit }) => {
       emit(actionTypes.WS_NEXT_QUESTION, { id, questionNumber });
+  };
+};
+
+export const answerQuestion = (id, userName, questionNumber, answerIndex) => {
+  return (dispatch, getState, { emit }) => {
+      emit(actionTypes.WS_CLIENT_ANSWER, { id, userName, question: questionNumber, answer: answerIndex });
   };
 };

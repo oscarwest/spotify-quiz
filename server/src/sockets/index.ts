@@ -46,10 +46,11 @@ const ioEvents = (io: SocketIO.Server) => {
 
     // Answer a question
     socket.on('WS_CLIENT_ANSWER', (data: any) => {
+      console.log('client_answer');
       const room = data.id;
       const userName = data.userName;
-      const answer = data.answer;
       const question = data.question;
+      const answer = data.answer;
 
       const res = {
         userName,
@@ -57,7 +58,7 @@ const ioEvents = (io: SocketIO.Server) => {
         question,
       };
 
-      io.sockets.in(room).emit('answerReceivedEvent', JSON.stringify(res));
+      io.sockets.in(room).emit('WS_CLIENT_ANSWER_RESPONSE', JSON.stringify(res));
     });
 
     // Next question

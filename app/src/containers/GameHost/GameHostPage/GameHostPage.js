@@ -55,9 +55,6 @@ class GameHostPage extends Component {
         let curr = this.props.currentQuestion;
         let questionAnswerIndex = this.props.game.quiz.questions[curr].answer;
         let playingSong = this.props.game.quiz.questions[curr].songs[questionAnswerIndex];
-        console.log('questionAnswerIndex: ', questionAnswerIndex);
-        console.log('playingSong', playingSong);
-        
 
         if (!prevProps.gameStarted && this.props.gameStarted && curr === 0) {
             // Start Timer for first question
@@ -101,7 +98,7 @@ class GameHostPage extends Component {
     render() {
         const players = this.props.users.map((item, index) =>
             <PlayerName key={index}>
-                {item}
+                {item.name}
             </PlayerName>
         );
 
