@@ -31,7 +31,7 @@ export class QuizService {
     return songs.slice(0, count).map((song) => {
       const index = Math.floor(Math.random() * songs.length - 3);
       return new Question({
-        answer: Math.floor(Math.random() * 4) + 1,
+        answer: Math.floor(Math.random() * 4),
         songs: [
           songs[index],
           songs[index + 1],

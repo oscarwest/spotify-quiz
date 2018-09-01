@@ -29,9 +29,11 @@ const PlayerContainer = styled.div`
 
 class GameHostPage extends Component {
     refreshIntervalId = null;
+    audio = null;
 
     constructor(props) {
         super(props);
+        this.audio = new Audio();
 
         if (!this.props.quiz) {
             this.props.redirect();
@@ -50,31 +52,36 @@ class GameHostPage extends Component {
     }
 
     componentDidUpdate = (prevProps, prevState) => {
-        let audio = new Audio();
-        let playingSongIndex = this.props.game.quiz.questions[this.props.currentQuestion].answer;
-        let playingSong = this.props.game.quiz.questions[this.props.currentQuestion].songs[playingSongIndex];
+        let curr = this.props.currentQuestion;
+        let questionAnswerIndex = this.props.game.quiz.questions[curr].answer;
+        let playingSong = this.props.game.quiz.questions[curr].songs[questionAnswerIndex];
+        console.log('questionAnswerIndex: ', questionAnswerIndex);
+        console.log('playingSong', playingSong);
+        
 
-        if (!prevProps.gameStarted && this.props.gameStarted && this.props.currentQuestion === 0) {
+        if (!prevProps.gameStarted && this.props.gameStarted && curr === 0) {
             // Start Timer for first question
             this.tick();
 
-            audio.src = playingSong.previewUrl;
-            audio.play();
+            this.audio.pause();
+            this.audio.src = playingSong.previewUrl;
+            this.audio.play();
         }
 
-        if (prevProps.gameStarted && prevProps.currentQuestion < this.props.currentQuestion) {
+        if (prevProps.gameStarted && prevProps.currentQuestion < curr) {
             // start timer for new question
             this.tick();
 
-            audio.src = playingSong.previewUrl;
-            audio.play();
+            this.audio.pause();
+            this.audio.src = playingSong.previewUrl;
+            this.audio.play();
         }
 
         if (this.props.counter === 5) {
             clearInterval(this.refreshIntervalId);
-            if (this.props.game && this.props.currentQuestion < this.props.game.quiz.questions.length) {
+            if (this.props.game && curr < this.props.game.quiz.questions.length) {
                 setTimeout(() => {
-                    this.props.nextQuestion(this.props.game.id, this.props.currentQuestion + 1);
+                    this.props.nextQuestion(this.props.game.id, curr + 1);
                 }, 1000);
             } else {
                 // game ended

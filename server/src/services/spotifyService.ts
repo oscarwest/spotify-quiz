@@ -35,8 +35,8 @@ export class SpotifyService {
     try {
       const res = await rp(opts);
 
-      const songs = res.tracks.items
-        .filter((item : any) => item.track.preview_url != null)
+      const songs = res.items
+        .filter((item : any) => item.track.preview_url)
         .map((item: any) => {
           return new Song(
             {
