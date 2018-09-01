@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import SwipeEventComponent from '../../../components/SwipeEventComponent/SwipeEventComponent';
+import SwipeEventComponent from '../SwipeEventComponent/SwipeEventComponent';
 
 const TouchArea = styled.div`
   display: flex;

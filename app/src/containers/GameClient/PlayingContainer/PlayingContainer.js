@@ -2,16 +2,21 @@ import React, { Component } from 'react';
 // import { Redirect } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import SwipeArea from '../../../components/SwipeArea/SwipeArea';
 
 class PlayingContainer extends Component {
 
 
     render() {
+        //const redirect = this.props.users.length < 1;
+
+        // if (redirect) {
+        //     return <Redirect to="/" />;
+        // }
+
         if (this.props.gameStarted) {
             return (
-                <div>
-                    <p>swipe or something</p>
-                </div>
+                <SwipeArea />
             );
         } else {
             return (
@@ -25,7 +30,8 @@ class PlayingContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-    gameStarted: state.wsClientReducer.gameStarted,
+    gameStarted: state.websocket.gameStarted,
+    users: state.websocket.users
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
