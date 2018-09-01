@@ -52,9 +52,9 @@ class HomeComponent extends Component {
                 <h1>HomeComponent</h1>
                 <h2>Join a game</h2>
                 <JoinForm>
-                    <TextInput placeholder="Game ID" value={this.state.gameId} onChange={this.handleChangeId} maxLength="9" />
+                    <TextInput placeholder="Game ID" value={this.state.gameId} onChange={this.handleChangeId} maxLength={9} />
                     <br />
-                    <TextInput placeholder="User alias" value={this.state.userName} onChange={this.handleChangeUserName} maxLength="9" />
+                    <TextInput placeholder="User alias" value={this.state.userName} onChange={this.handleChangeUserName} maxLength={9} />
                     <br />
                     <Button text="Join game!" type="submit" disabled={this.state.gameId.length < 9 || this.state.userName.length < 3} onClick={this.handleSubmit} />
                 </JoinForm>

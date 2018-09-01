@@ -30,7 +30,7 @@ router.post('/create', [
                                               req.body.description);
     res.json(quiz);
   } catch (error) {
-    next();
+    res.status(500).send(error.toString());
   }
 });
 
