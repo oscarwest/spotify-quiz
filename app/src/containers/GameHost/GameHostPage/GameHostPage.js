@@ -135,11 +135,11 @@ class GameHostPage extends Component {
 
 const mapStateToProps = state => ({
     quiz: state.quiz.quiz,
-    game: state.websocket.game,
-    gameStarted: state.websocket.gameStarted,
-    users: state.websocket.users,
-    counter: state.websocket.counter,
-    currentQuestion: state.websocket.currentQuestion,
+    game: state.wsHostReducer.game,
+    gameStarted: state.wsHostReducer.gameStarted,
+    users: state.wsHostReducer.users,
+    counter: state.wsHostReducer.counter,
+    currentQuestion: state.wsHostReducer.currentQuestion,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

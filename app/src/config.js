@@ -5,7 +5,8 @@ const messageTypes = [
     'WS_GAME_CREATED',
     'WS_USER_JOINED_GAME',
     'WS_GAME_STARTED',
-    'WS_NEXT_QUESTION_RESPONSE'
+    'WS_NEXT_QUESTION_RESPONSE',
+    'WS_CLIENT_ANSWER'
 ].reduce((accum, msg) => {
     accum[msg] = msg;
     return accum;

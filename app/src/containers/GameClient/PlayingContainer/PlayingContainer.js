@@ -7,12 +7,6 @@ class PlayingContainer extends Component {
 
 
     render() {
-        //const redirect = this.props.users.length < 1;
-
-        // if (redirect) {
-        //     return <Redirect to="/" />;
-        // }
-
         if (this.props.gameStarted) {
             return (
                 <div>
@@ -31,8 +25,7 @@ class PlayingContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-    gameStarted: state.websocket.gameStarted,
-    users: state.websocket.users
+    gameStarted: state.wsClientReducer.gameStarted,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

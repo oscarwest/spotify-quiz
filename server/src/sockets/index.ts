@@ -11,23 +11,24 @@ import { QuizService } from '../services/quizService';
 const redis = require('redis');
 const client = redis.createClient(6379, 'redis');
 
-/**
- * Encapsulates all code for emitting and listening to socket events
- *
- */
 const ioEvents = (io: SocketIO.Server) => {
   io.origins('*:*'); // for latest version
 
   io.on('connect', (socket: any) => {
     console.log('backend ws connection');
 
-    // Create a Game
     socket.on('WS_CREATE_GAME', async (data: Quiz) => {
       const gameService = new GameService();
       const game = await gameService.createGame(data);
 
       socket.join(game.id);
       io.to(game.id).emit('WS_GAME_CREATED', JSON.stringify(game));
+    });
+
+    socket.on('WS_JOIN_GAME', (data: any) => {
+      socket.join(data.id);
+
+      io.to(data.id).emit('WS_USER_JOINED_GAME', `{ "userName": "${data.userName}" }`);
     });
 
     socket.on('WS_LAUNCH_GAME', (data: any) => {
@@ -42,15 +43,9 @@ const ioEvents = (io: SocketIO.Server) => {
     //   // set redis state
     // });
 
-    // Join a Game
-    socket.on('WS_JOIN_GAME', (data: any) => {
-      socket.join(data.id);
-
-      io.to(data.id).emit('WS_USER_JOINED_GAME', `{ "userName": "${data.userName}" }`);
-    });
 
     // Answer a question
-    socket.on('answer', (data: any) => {
+    socket.on('WS_CLIENT_ANSWER', (data: any) => {
       const room = data.id;
       const userName = data.userName;
       const answer = data.answer;
